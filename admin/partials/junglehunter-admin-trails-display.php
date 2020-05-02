@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        JungleHunter_Database::junglehunter_insert_trail($name, $length, $route);
+        JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
         $name = '';
         $length = '';
         $route = '';
