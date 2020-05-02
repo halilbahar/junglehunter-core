@@ -52,11 +52,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="junglehunter-trail-route" class="junglehunter-block">Route:</label>
                 <select name="route" id="junglehunter-trail-route">
                     <?php
+                    $hasSelected = false;
                     foreach ($routes as $single_route) {
-                        $isSelected = $single_route->route_name == $route ? 'selected' : '';
+                        $isSelected = '';
+                        if ($single_route->route_name == $route) {
+                            $isSelected = 'selected';
+                            $hasSelected = true;
+                        }
                         echo "<option $isSelected value='$single_route->route_name'>$single_route->route_name</option>";
                     }
                     ?>
+                    <option value="" <?php echo($hasSelected ? '' : 'selected') ?> disabled hidden>
+                        The Route that the Trail belongs to
+                    </option>
                 </select>
             </div>
             <input type="submit" value="Create">
