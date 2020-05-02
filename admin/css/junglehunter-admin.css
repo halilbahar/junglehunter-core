@@ -23,10 +23,6 @@
     background-color: hotpink;
 }
 
-.junglehunter-pointer {
-    cursor: pointer;
-}
-
 #junglehunter-input {
     box-sizing: border-box;
     border: 2px solid #ddd;

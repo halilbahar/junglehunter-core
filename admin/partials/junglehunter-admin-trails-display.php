@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
         $trails = JungleHunter_Database::junglehunter_get_trails();
         foreach ($trails as $trail) {
-            echo '<tr class="junglehunter-pointer">';
+            echo '<tr>';
             echo "<td>$trail->trail_id</td>";
             echo "<td>$trail->trail_name</td>";
             echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
