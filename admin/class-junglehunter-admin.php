@@ -42,7 +42,7 @@ class Junglehunter_Admin {
 
         add_submenu_page('junglehunter-routes', 'Junglehunter Trails', 'Trails', 'manage_options', 'junglehunter-trails', array(
             $this,
-            'junglehunter_routes_page_html'
+            'junglehunter_trails_page_html'
         ));
 
         add_submenu_page('junglehunter-routes', 'Junglehunter Control Points', 'Control Points', 'manage_options', 'junglehunter-control-points', array(
@@ -61,5 +61,9 @@ class Junglehunter_Admin {
 
     public function junglehunter_routes_page_html() {
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/junglehunter-admin-routes-display.php';
+    }
+
+    public function junglehunter_trails_page_html() {
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/junglehunter-admin-trails-display.php';
     }
 }
