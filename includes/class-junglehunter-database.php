@@ -52,8 +52,15 @@ class JungleHunter_Database {
     public static function junglehunter_insert_route($name, $start, $url, $description) {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $sql_insert_route = "INSERT INTO ${prefix}jh_route (route_name, start, url, description) VALUES ('$name', '$start', '$url', '$description')";
-        return $wpdb->query($sql_insert_route);
+
+        $data = array(
+            'route_name' => $name,
+            'start' => $start,
+            'url' => $url,
+            'description' => $description
+        );
+
+        $wpdb->insert("${prefix}jh_route", $data);
     }
 
     public static function junglehunter_get_trails() {
