@@ -1,0 +1,38 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+#junglehunter-table {
+    background-color: white;
+    border-spacing: 0;
+    width: 100%;
+    border: 3px solid #ddd;
+}
+
+#junglehunter-table th, #junglehunter-table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.junglehunter-selected-table {
+    background-color: hotpink;
+}
+
+.junglehunter-pointer {
+    cursor: pointer;
+}
+
+#junglehunter-input {
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+
+.junglehunter-input-row {
+    margin-bottom: 10px;
+}
+
+.junglehunter-input-row input, .junglehunter-input-row textarea {
+    width: 100%;
+}
