@@ -14,7 +14,7 @@ class JungleHunter_Database {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         $sql_trail = "CREATE TABLE IF NOT EXISTS {$prefix}jh_trail (
-            trail_id INT(11) NOT NULL,
+            trail_id INT(11) NOT NULL AUTO_INCREMENT,
             trail_name VARCHAR(100) NOT NULL,
             length DOUBLE NOT NULL,
             route_name VARCHAR(100) NOT NULL,
@@ -24,7 +24,7 @@ class JungleHunter_Database {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         $sql_control_point = "CREATE TABLE IF NOT EXISTS {$prefix}jh_control_point (
-            control_point_id INT(11) NOT NULL,
+            control_point_id INT(11) NOT NULL AUTO_INCREMENT,
             name VARCHAR(50) NOT NULL,
             comment VARCHAR(255) NOT NULL,
             note VARCHAR(255) NOT NULL,
