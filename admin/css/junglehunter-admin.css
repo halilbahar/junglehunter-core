@@ -7,7 +7,7 @@
     background-color: white;
     border-spacing: 0;
     width: 100%;
-    border: 3px solid #ddd;
+    border: 2px solid #ddd;
 }
 
 #junglehunter-table th, #junglehunter-table td {
@@ -16,7 +16,7 @@
 }
 
 #junglehunter-table tbody tr:nth-child(odd) {
-    background-color: #dddddd;
+    background-color: #f2f2f2;
 }
 
 .junglehunter-selected-table {
@@ -29,7 +29,7 @@
 
 #junglehunter-input {
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     padding: 5px 10px;
 }
 
