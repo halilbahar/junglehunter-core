@@ -33,6 +33,11 @@
     margin-bottom: 10px;
 }
 
-.junglehunter-input-row input, .junglehunter-input-row textarea {
+.junglehunter-input-row input, .junglehunter-input-row textarea, .junglehunter-input-row select {
     width: 100%;
+    max-width: 100% !important;
+}
+
+.junglehunter-block {
+    display: block;
 }
