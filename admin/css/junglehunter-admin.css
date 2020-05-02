@@ -20,11 +20,11 @@
 }
 
 #junglehunter-table tbody tr:hover {
-    background-color: #f2f2f2;
+    background-color: #dfdfdf;
 }
 
 .junglehunter-selected-table {
-    background-color: hotpink;
+    background-color: #dfdfdf !important;
 }
 
 #junglehunter-input {
