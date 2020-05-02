@@ -52,3 +52,15 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.junglehunter-input-row input::-moz-placeholder {
+    color: #999;
+}
+
+.junglehunter-input-row input:-ms-input-placeholder {
+    color: #999;
+}
+
+.junglehunter-input-row input::-webkit-input-placeholder {
+    color: #999;
+}
