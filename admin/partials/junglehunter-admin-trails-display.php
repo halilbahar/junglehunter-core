@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?>
     </div>
     <h1>Registered Routes:</h1>
-    <table id="junglehunter-table">
+    <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
         <tr>
             <th>Id</th>
