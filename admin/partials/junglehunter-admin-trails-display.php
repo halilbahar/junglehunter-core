@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                        oninput="this.value = this.value.replace(/[^0-9,]/g, '').replace(/(,.*),/g, '$1');">
             </div>
             <div class="junglehunter-input-row">
-                <label for="junglehunter-trail-route" class="junglehunter-block">Route:</label>
+                <label for="junglehunter-trail-route">Route:</label>
                 <select name="route" id="junglehunter-trail-route">
                     <?php
                     $hasSelected = false;

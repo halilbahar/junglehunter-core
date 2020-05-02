@@ -46,10 +46,6 @@
     max-width: 100% !important;
 }
 
-.junglehunter-block {
-    display: block;
-}
-
 .junglehunter-unselectable {
     -webkit-user-select: none;
     -moz-user-select: none;
