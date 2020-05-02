@@ -15,6 +15,7 @@
         $('#junglehunter-route-cancel').click(function () {
 			$('#junglehunter-form > div > input').val('');
 			$('#junglehunter-form > div > textarea').val('');
+			$('#junglehunter-form > div > select').val('');
         });
     });
 })(jQuery);

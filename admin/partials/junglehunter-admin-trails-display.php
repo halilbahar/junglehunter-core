@@ -68,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
             </div>
             <input type="submit" value="Create">
+            <input type="button" value="Save">
+            <input type="button" value="Delete">
+            <input type="button" value="Cancel" id="junglehunter-route-cancel">
         </form>
         <?php
         if (isset($errors)) {
