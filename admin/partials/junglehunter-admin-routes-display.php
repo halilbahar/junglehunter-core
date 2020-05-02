@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="wrap">
     <div id="junglehunter-input">
         <h1>Insert Route:</h1>
-        <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post">
+        <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-name">Name:</label>
                 <input type="text" id="junglehunter-route-name" name="name" placeholder="A name for the Route"
@@ -61,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           placeholder="A small description of the Route" rows="3"><?php echo $description ?></textarea>
             </div>
             <input type="submit" value="Create">
+            <input type="button" value="Save">
+            <input type="button" value="Delete">
+            <input type="button" value="Cancel" id="junglehunter-route-cancel">
         </form>
         <?php
         if (isset($errors)) {

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="wrap">
     <div id="junglehunter-input">
         <h1>Insert Trail:</h1>
-        <form action="<?php menu_page_url("junglehunter-trails") ?>" method="post">
+        <form action="<?php menu_page_url("junglehunter-trails") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-name">Name:</label>
                 <input type="text" id="junglehunter-trail-name" name="name" placeholder="A name for the Trail"
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Registered Routes:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
-        <tr>
+        <tr onclick="test()">
             <th>Id</th>
             <th>Name</th>
             <th>Length in kilometer</th>
