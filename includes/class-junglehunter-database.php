@@ -62,4 +62,17 @@ class JungleHunter_Database {
         $sql_trails_select = "SELECT trail_id, trail_name, length, route_name FROM ${prefix}jh_trail";
         return $wpdb->get_results($sql_trails_select);
     }
+
+    public static function junglehunter_insert_trail($name, $length, $route) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        $data = array(
+            'trail_name' => $name,
+            'length' => $length,
+            'route_name' => $route
+        );
+
+        $wpdb->insert("${prefix}jh_trail", $data);
+    }
 }
