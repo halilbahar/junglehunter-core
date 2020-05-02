@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo '<tr class="junglehunter-pointer">';
             echo "<td>$trail->trail_id</td>";
             echo "<td>$trail->trail_name</td>";
-            echo "<td>$trail->length</td>";
+            echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
             echo "<td>$trail->route_name</td>";
             echo '<tr/>';
         }
