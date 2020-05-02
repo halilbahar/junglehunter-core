@@ -12,8 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $length = $_POST['length'];
-    if (!$length || !is_numeric(str_replace(',', '.', $length))) {
-        $errors['start'] = 'The length of the trail needs to bet set!';
+    $lengthConverted = str_replace(',', '.', $length);
+    if (!$length || !is_numeric($lengthConverted) || $lengthConverted <= 0) {
+        $errors['start'] = 'The length of the trail needs to bet set and must be bigger than 0!';
     }
 
     $route = $_POST['route'];
