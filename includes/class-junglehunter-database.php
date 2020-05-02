@@ -45,7 +45,6 @@ class JungleHunter_Database {
     public static function junglehunter_get_routes() {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $sql_routes_select = "SELECT route_name, start, url, description FROM ${prefix}jh_route";
         return $wpdb->get_results($sql_routes_select);
     }
@@ -53,7 +52,6 @@ class JungleHunter_Database {
     public static function junglehunter_insert_route($name, $start, $url, $description) {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $sql_insert_route = "INSERT INTO ${prefix}jh_route (route_name, start, url, description) VALUES ('$name', '$start', '$url', '$description')";
         return $wpdb->query($sql_insert_route);
     }
