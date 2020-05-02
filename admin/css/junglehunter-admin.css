@@ -16,6 +16,10 @@
 }
 
 #junglehunter-table tbody tr:nth-child(odd) {
+    background-color: #f7f7f7;
+}
+
+#junglehunter-table tbody tr:hover {
     background-color: #f2f2f2;
 }
 
