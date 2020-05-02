@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-description">Description:</label>
                 <textarea id="junglehunter-route-description" name="description"
-                          placeholder="A small description of the Route"><?php echo $description ?></textarea>
+                          placeholder="A small description of the Route" rows="3"><?php echo $description ?></textarea>
             </div>
             <input type="submit" value="Create">
         </form>
