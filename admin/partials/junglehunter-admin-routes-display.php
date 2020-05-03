@@ -7,12 +7,15 @@ function validateBody() {
         $errors['name'] = 'The name of the route cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
         $errors['name'] = 'The name of the route is too long!';
-    } else if(JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
+    } else if (JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
         $errors['name'] = 'This name already exists!';
     }
 
-    if (!isset($_POST['start']) || (isset($_POST['start']) && (strlen($_POST['start']) == 0 || strlen($_POST['start']) > 100))) {
-        $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
+
+    if (!isset($_POST['start']) || (strlen(trim($_POST['start'])) == 0)) {
+        $errors['start'] = 'The start of the route cannot be empty!';
+    } else if (strlen(trim($_POST['start'])) > 100) {
+        $errors['start'] = 'The start of the route is too long!';
     }
 
     $regex = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*/';
