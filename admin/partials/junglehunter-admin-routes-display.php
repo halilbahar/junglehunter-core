@@ -10,23 +10,17 @@ function validateBody() {
         $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
     }
 
-    if (!isset($_POST['url']) || (isset($_POST['url']) && (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255))) {
-        $errors['url'] = 'The url of the route needs to be at least 1 and max 255 characters!';
+    $regex = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*/';
+    if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match($regex, $_POST['url'], $matches, PREG_OFFSET_CAPTURE, 0) == 0)) {
+        $errors['url'] = 'The url of the route is invalid!';
+    }else if (isset($_POST['url']) && (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255)) {
+        $errors['url'] = 'The url is too long!';
     }
 
     if (!isset($_POST['description']) || (isset($_POST['description']) && (strlen($_POST['description']) == 0 || strlen($_POST['description']) > 255))) {
         $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
     }
     return $errors;
-}
-
-function isset_echo($variable, $echo_value = null) {
-    if ($echo_value == null) {
-        $echo_value = $variable;
-    }
-    if (isset($variable)) {
-        echo $echo_value;
-    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
@@ -102,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <input type="submit" value="Save" id="junglehunter-save" disabled class="junglehunter-button">
                 <input type="submit" value="Create" id="junglehunter-create" class="junglehunter-button">
             </div>
-            <input type="hidden" id="junglehunter-original-unique-field" name="original_name" class="junglehunter-button">
+            <input type="hidden" id="junglehunter-original-unique-field" name="original_name"
+                   class="junglehunter-button">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method" class="junglehunter-button">
         </form>
     </div>
