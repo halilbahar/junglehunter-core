@@ -8,24 +8,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
         $errors = array();
         if (!isset($_POST['name']) || (isset($_POST['name']) && (strlen($_POST['name']) == 0 || strlen($_POST['name']) > 100))) {
-            $name = $_POST['name'];
             $errors['name'] = 'The name of the route needs to be at least 1 and max 100 characters!';
         }
+        $name = $_POST['name'];
 
         if (!isset($_POST['start']) || (isset($_POST['start']) && (strlen($_POST['start']) == 0 || strlen($_POST['start']) > 100))) {
-            $start = $_POST['start'];
             $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
         }
+        $start = $_POST['start'];
 
         if (!isset($_POST['url']) || (isset($_POST['url']) && (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255))) {
-            $url = $_POST['url'];
             $errors['url'] = 'The url of the route needs to be at least 1 and max 255 characters!';
         }
+        $url = $_POST['url'];
 
         if (!isset($_POST['description']) || (isset($_POST['description']) && (strlen($_POST['description']) == 0 || strlen($_POST['description']) > 255))) {
-            $description = $_POST['description'];
             $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
         }
+        $description = $_POST['description'];
 
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
@@ -36,11 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             $description = '';
         }
     } else if ($_POST['_method'] == 'DELETE') {
-        $name = $_POST['name'];
-        if (isset($name)) {
-            JungleHunter_Database::junglehunter_delete_route($name);
-            $response = 'The route was deleted!';
-            $name = '';
+        if (isset($_POST['name'])) {
+            $response = JungleHunter_Database::junglehunter_delete_route($_POST['name']) ? 'The route was deleted!' : 'This route does not exist!';
         }
     }
 }
