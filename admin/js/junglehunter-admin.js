@@ -28,14 +28,15 @@
 
         $('#junglehunter-route-cancel').click(function () {
             var formDivs = $('#junglehunter-form > div');
+            // Reset all fields
             $(formDivs).children('input').val('');
             $(formDivs).children('textarea').val('');
             $(formDivs).children('select').val('');
-
+            // Toggle the buttons - Create state
             createButton.prop('disabled', false);
             saveButton.prop('disabled', true);
             deleteButton.prop('disabled', true);
-
+            // Make unique field writeable
             routeName.prop('readonly', false);
 
             tableRows.removeClass('junglehunter-selected-table');
@@ -43,16 +44,16 @@
 
         $('.junglehunter-route-tr').click(function () {
             var tds = getTd($(this).children('td'));
-
+            // Load from table
             $('#junglehunter-route-name').val(tds[0]);
             $('#junglehunter-route-start').val(tds[1]);
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
-
+            // Toggle the buttons - delete and save state
             createButton.prop('disabled', true);
             saveButton.prop('disabled', false);
             deleteButton.prop('disabled', false);
-
+            // Make unique field read only
             routeName.prop('readonly', true);
         });
 
