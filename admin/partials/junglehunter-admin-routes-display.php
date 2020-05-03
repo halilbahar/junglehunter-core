@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             $name = $start = $url = $description = '';
         }
 
-    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['name'])) {
-        $response = JungleHunter_Database::junglehunter_delete_route($_POST['name']) ? 'The route was deleted!' : 'This route does not exist!';
+    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
+        $response = JungleHunter_Database::junglehunter_delete_route($_POST['original_name']) ? 'The route was deleted!' : 'This route does not exist!';
 
     } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
         $errors = validateBody();

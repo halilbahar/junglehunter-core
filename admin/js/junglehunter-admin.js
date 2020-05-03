@@ -40,7 +40,6 @@
         }
 
         function clickCommon(uniqueField) {
-            console.log(uniqueField);
             $('#junglehunter-original-unique-field').val(uniqueField);
             createButton.prop('disabled', true);
             saveButton.prop('disabled', false);
