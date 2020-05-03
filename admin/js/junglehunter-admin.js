@@ -20,6 +20,8 @@
         var saveButton = $('#junglehunter-save');
         var deleteButton = $('#junglehunter-delete');
 
+        var routeName = $('#junglehunter-route-name');
+
         deleteButton.click(function () {
             $('#junglehunter-method').val('DELETE');
         });
@@ -29,21 +31,29 @@
             $(formDivs).children('input').val('');
             $(formDivs).children('textarea').val('');
             $(formDivs).children('select').val('');
+
             createButton.prop('disabled', false);
             saveButton.prop('disabled', true);
             deleteButton.prop('disabled', true);
+
+            routeName.prop('readonly', false);
+
             tableRows.removeClass('junglehunter-selected-table');
         });
 
         $('.junglehunter-route-tr').click(function () {
             var tds = getTd($(this).children('td'));
+
             $('#junglehunter-route-name').val(tds[0]);
             $('#junglehunter-route-start').val(tds[1]);
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
+
             createButton.prop('disabled', true);
             saveButton.prop('disabled', false);
             deleteButton.prop('disabled', false);
+
+            routeName.prop('readonly', true);
         });
 
         ////////////////////
