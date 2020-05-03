@@ -13,7 +13,7 @@ function validateBody() {
     $regex = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*/';
     if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match($regex, $_POST['url'], $matches, PREG_OFFSET_CAPTURE, 0) == 0)) {
         $errors['url'] = 'The url of the route is invalid!';
-    }else if (isset($_POST['url']) && (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255)) {
+    }else if (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255) {
         $errors['url'] = 'The url is too long!';
     }
 
