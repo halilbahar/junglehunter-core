@@ -1,22 +1,31 @@
 (function ($) {
     'use strict';
     $(function () {
-        $('#junglehunter-table tr').each(function () {
+        var tableRows = $('#junglehunter-table tbody tr');
+        tableRows.each(function () {
             var $this = $(this);
             if ($this.html().replace(/\s|&nbsp;/g, '').length == 0) {
                 $this.remove();
             }
         });
 
-        $('#junglehunter-table tr').click(function () {
+        tableRows.click(function () {
             $(this).toggleClass('junglehunter-selected-table').siblings().removeClass('junglehunter-selected-table');
         });
+
+        /////////////////////
+        // Route functions //
+        /////////////////////
+        var createButton = $('#junglehunter-create');
+        var deleteButton = $('#junglehunter-delete');
 
         $('#junglehunter-route-cancel').click(function () {
             var formDivs = $('#junglehunter-form > div');
             $(formDivs).children('input').val('');
             $(formDivs).children('textarea').val('');
             $(formDivs).children('select').val('');
+            createButton.prop('disabled', false);
+            tableRows.removeClass('junglehunter-selected-table');
         });
 
         $('.junglehunter-route-tr').click(function () {
@@ -25,6 +34,7 @@
             $('#junglehunter-route-start').val(tds[1]);
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
+            createButton.prop('disabled', true);
         });
 
         ////////////////////

@@ -60,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <textarea id="junglehunter-route-description" name="description"
                           placeholder="A small description of the Route" rows="3"><?php echo $description ?></textarea>
             </div>
-            <input type="submit" value="Create">
+            <input type="submit" value="Create" id="junglehunter-create">
             <input type="button" value="Save">
-            <input type="button" value="Delete">
+            <input type="button" value="Delete" id="junglehunter-delete">
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
         </form>
         <?php
