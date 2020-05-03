@@ -3,6 +3,7 @@ $name = '';
 $start = '';
 $url = '';
 $description = '';
+$response = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
         $errors = array();
@@ -28,16 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
+            $response = 'A new Route was created!';
             $name = '';
             $start = '';
             $url = '';
             $description = '';
+        }
+    } else if ($_POST['_method'] == 'DELETE') {
+        $name = $_POST['name'];
+        if (isset($name)) {
+            JungleHunter_Database::junglehunter_delete_route($name);
+            $response = 'The route was deleted!';
+            $name = '';
         }
     }
 }
 ?>
 
 <div class="wrap">
+        <?php if ($response != '') echo "<div>$response</div>" ?>
     <div id="junglehunter-input">
         <h1>Insert Route:</h1>
         <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
