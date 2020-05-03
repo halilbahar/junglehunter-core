@@ -70,17 +70,18 @@ class JungleHunter_Database {
         return $wpdb->delete("${prefix}jh_route", array('route_name' => $name)) == 1;
     }
 
-    public static function junglehunter_update_route($name, $start, $url, $description) {
+    public static function junglehunter_update_route($original_name, $name, $start, $url, $description) {
         global $wpdb;
         $prefix = $wpdb->prefix;
 
         $data = array(
+            'route_name' => $name,
             'start' => $start,
             'url' => $url,
             'description' => $description
         );
 
-        return $wpdb->update("${prefix}jh_route", $data, array('route_name' => $name));
+        return $wpdb->update("${prefix}jh_route", $data, array('route_name' => $original_name));
     }
 
     public static function junglehunter_get_trails() {

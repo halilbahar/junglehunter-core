@@ -29,6 +29,7 @@
         });
 
         function cancelCommon() {
+            $('#junglehunter-original-unique-field').val('');
             // Reset all fields
             $('#junglehunter-form > div').children('input, textarea, select').val('');
             // Toggle the buttons - Create state
@@ -38,7 +39,9 @@
             tableRows.removeClass('junglehunter-selected-table');
         }
 
-        function clickCommon() {
+        function clickCommon(uniqueField) {
+            console.log(uniqueField);
+            $('#junglehunter-original-unique-field').val(uniqueField);
             createButton.prop('disabled', true);
             saveButton.prop('disabled', false);
             deleteButton.prop('disabled', false);
@@ -47,12 +50,8 @@
         /////////////////////
         // Route functions //
         /////////////////////
-        var routeName = $('#junglehunter-route-name');
-
         $('#junglehunter-route-cancel').click(function () {
             cancelCommon();
-            // Make unique field writeable
-            routeName.prop('readonly', false);
         });
 
         $('.junglehunter-route-tr').click(function () {
@@ -63,9 +62,7 @@
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
             // Toggle the buttons - delete and save state
-            clickCommon();
-            // Make unique field read only
-            routeName.prop('readonly', true);
+            clickCommon(tds[0]);
         });
 
         ////////////////////

@@ -1,6 +1,6 @@
 <?php
 $name = $start = $url = $description = $response = '';
-
+var_dump($_POST['original_name']);
 function validateBody() {
     $errors = array();
     if (!isset($_POST['name']) || (isset($_POST['name']) && (strlen($_POST['name']) == 0 || strlen($_POST['name']) > 100))) {
@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['name'])) {
         $response = JungleHunter_Database::junglehunter_delete_route($_POST['name']) ? 'The route was deleted!' : 'This route does not exist!';
 
-    } else if ($_POST['_method'] == 'PUT') {
+    } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
         $errors = validateBody();
         if (empty($errors)) {
-            $isUpdated = JungleHunter_Database::junglehunter_update_route($_POST['name'], $_POST['start'], $_POST['url'], $_POST['description']);
+            $isUpdated = JungleHunter_Database::junglehunter_update_route($_POST['original_name'], $_POST['name'], $_POST['start'], $_POST['url'], $_POST['description']);
             $response = $isUpdated ? 'The Route was updated!' : 'Nothing was changed!';
         }
     }
@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             <input type="submit" value="Delete" id="junglehunter-delete" disabled>
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
             <input type="hidden" id="junglehunter-method" name="_method" value="POST">
+            <input type="hidden" id="junglehunter-original-unique-field" name="original_name" value="what">
         </form>
         <?php
         if (isset($errors)) {
