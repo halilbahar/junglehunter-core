@@ -1,6 +1,5 @@
 <?php
 $name = $start = $url = $description = $response = '';
-var_dump($_POST['original_name']);
 function validateBody() {
     $errors = array();
     if (!isset($_POST['name']) || (isset($_POST['name']) && (strlen($_POST['name']) == 0 || strlen($_POST['name']) > 100))) {
@@ -19,6 +18,15 @@ function validateBody() {
         $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
     }
     return $errors;
+}
+
+function isset_echo($variable, $echo_value = null) {
+    if ($echo_value == null) {
+        $echo_value = $variable;
+    }
+    if (isset($variable)) {
+        echo $echo_value;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
@@ -48,30 +56,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 ?>
 
 <div class="wrap">
-    <?php if ($response != '')
-        echo "<div>$response</div>" ?>
+    <div><?php echo $response ?></div>
     <div id="junglehunter-input">
         <h1>Insert Route:</h1>
         <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-name">Name:</label>
                 <input type="text" id="junglehunter-route-name" name="name" placeholder="A name for the Route"
-                       value="<?php echo $name ?>">
+                       value="<?php echo $name ?>"
+                       class="<?php if (isset($errors['name']))
+                           echo 'junglehunter-red-border' ?>">
+                <span class="junglehunter-error-message"><?php if (isset($errors['name']))
+                        echo $errors['name'] ?></span>
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-start">Start:</label>
                 <input type="text" id="junglehunter-route-start" name="start" placeholder="The start of the Route"
-                       value="<?php echo $start ?>">
+                       value="<?php echo $start ?>"
+                       class="<?php if (isset($errors['start']))
+                           echo 'junglehunter-red-border' ?>">
+                <span class="junglehunter-error-message"><?php if (isset($errors['start']))
+                        echo $errors['start'] ?></span>
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-url">Url:</label>
                 <input type="text" id="junglehunter-route-url" name="url" placeholder="The Url of the Route?"
-                       value="<?php echo $url ?>">
+                       value="<?php echo $url ?>"
+                       class="<?php if (isset($errors['url']))
+                           echo 'junglehunter-red-border' ?>">
+                <span class="junglehunter-error-message"><?php if (isset($errors['url']))
+                        echo $errors['url'] ?></span>
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-description">Description:</label>
                 <textarea id="junglehunter-route-description" name="description"
-                          placeholder="A small description of the Route" rows="3"><?php echo $description ?></textarea>
+                          placeholder="A small description of the Route" rows="3"
+                          class="<?php if (isset($errors['description']))
+                              echo 'junglehunter-red-border' ?>"><?php echo $description ?></textarea>
+                <span class="junglehunter-error-message"><?php if (isset($errors['description']))
+                        echo $errors['description'] ?></span>
             </div>
             <input type="submit" value="Create" id="junglehunter-create">
             <input type="submit" value="Save" id="junglehunter-save" disabled>
@@ -80,13 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             <input type="hidden" id="junglehunter-method" name="_method" value="POST">
             <input type="hidden" id="junglehunter-original-unique-field" name="original_name" value="what">
         </form>
-        <?php
-        if (isset($errors)) {
-            foreach ($errors as $error) {
-                echo $error . '<br>';
-            }
-        }
-        ?>
     </div>
     <h1>Registered Routes:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">

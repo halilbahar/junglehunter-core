@@ -75,5 +75,10 @@
             });
             return tdData;
         }
+
+        $('#junglehunter-form > div').children('input, textarea, select').keypress(function() {
+            $(this).removeClass('junglehunter-red-border');
+            $(this).parent().children('span.junglehunter-error-message').remove();
+        });
     });
 })(jQuery);
