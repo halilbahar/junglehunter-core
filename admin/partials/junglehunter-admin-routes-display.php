@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
         $errors = validateBody();
         $name = trim($_POST['name']);
-        $start = $_POST['start'];
-        $url = $_POST['url'];
-        $description = $_POST['description'];
+        $start = trim($_POST['start']);
+        $url = trim($_POST['url']);
+        $description = trim($_POST['description']);
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
             $response = 'A new Route was created!';
