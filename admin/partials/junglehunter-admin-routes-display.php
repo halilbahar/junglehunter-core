@@ -7,22 +7,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
         $errors = array();
         $name = $_POST['name'];
-        if (!$name || strlen($name) == 0 || strlen($name) > 100) {
+        if (!isset($name) || (isset($name) && (strlen($name) == 0 || strlen($name) > 100))) {
             $errors['name'] = 'The name of the route needs to be at least 1 and max 100 characters!';
         }
 
         $start = $_POST['start'];
-        if (!$start || strlen($start) == 0 || strlen($start) > 100) {
+        if (!isset($start) || (isset($start) && (strlen($start) == 0 || strlen($start) > 100))) {
             $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
         }
 
         $url = $_POST['url'];
-        if (!$url || strlen($url) == 0 || strlen($url) > 255) {
+        if (!isset($url) || (isset($url) && (strlen($url) == 0 || strlen($url) > 255))) {
             $errors['url'] = 'The url of the route needs to be at least 1 and max 255 characters!';
         }
 
         $description = $_POST['description'];
-        if (!$description || strlen($description) == 0 || strlen($description) > 255) {
+        if (!isset($description) || (isset($description) && (strlen($description) == 0 || strlen($description) > 255))) {
             $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
         }
 
