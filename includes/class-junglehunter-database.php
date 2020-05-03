@@ -63,6 +63,13 @@ class JungleHunter_Database {
         $wpdb->insert("${prefix}jh_route", $data);
     }
 
+    public static function junglehunter_delete_route($name) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        return $wpdb->delete("${prefix}jh_route", array('route_name' => $name)) == 1;
+    }
+
     public static function junglehunter_get_trails() {
         global $wpdb;
         $prefix = $wpdb->prefix;
