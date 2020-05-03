@@ -25,9 +25,12 @@ function validateBody() {
         $errors['url'] = 'The url is too long!';
     }
 
-    if (!isset($_POST['description']) || (isset($_POST['description']) && (strlen($_POST['description']) == 0 || strlen($_POST['description']) > 255))) {
-        $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
+    if (!isset($_POST['description']) || (strlen(trim($_POST['description'])) == 0)) {
+        $errors['description'] = 'The description of the route cannot be empty!';
+    } else if (strlen(trim($_POST['description'])) > 255) {
+        $errors['description'] = 'The description of the route is too long!';
     }
+
     return $errors;
 }
 
