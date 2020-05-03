@@ -3,35 +3,36 @@ $name = '';
 $start = '';
 $url = '';
 $description = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
+    if ($_POST['_method'] == 'POST') {
+        $errors = array();
+        $name = $_POST['name'];
+        if (!$name || strlen($name) == 0 || strlen($name) > 100) {
+            $errors['name'] = 'The name of the route needs to be at least 1 and max 100 characters!';
+        }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $errors = array();
-    $name = $_POST['name'];
-    if (!$name || strlen($name) == 0 || strlen($name) > 100) {
-        $errors['name'] = 'The name of the route needs to be at least 1 and max 100 characters!';
-    }
+        $start = $_POST['start'];
+        if (!$start || strlen($start) == 0 || strlen($start) > 100) {
+            $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
+        }
 
-    $start = $_POST['start'];
-    if (!$start || strlen($start) == 0 || strlen($start) > 100) {
-        $errors['start'] = 'The start of the route needs to be at least 1 and max 100 characters!';
-    }
+        $url = $_POST['url'];
+        if (!$url || strlen($url) == 0 || strlen($url) > 255) {
+            $errors['url'] = 'The url of the route needs to be at least 1 and max 255 characters!';
+        }
 
-    $url = $_POST['url'];
-    if (!$url || strlen($url) == 0 || strlen($url) > 255) {
-        $errors['url'] = 'The url of the route needs to be at least 1 and max 255 characters!';
-    }
+        $description = $_POST['description'];
+        if (!$description || strlen($description) == 0 || strlen($description) > 255) {
+            $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
+        }
 
-    $description = $_POST['description'];
-    if (!$description || strlen($description) == 0 || strlen($description) > 255) {
-        $errors['description'] = 'The description of the route needs to be at least 1 and max 255 characters!';
-    }
-
-    if (empty($errors)) {
-        JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
-        $name = '';
-        $start = '';
-        $url = '';
-        $description = '';
+        if (empty($errors)) {
+            JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
+            $name = '';
+            $start = '';
+            $url = '';
+            $description = '';
+        }
     }
 }
 ?>
@@ -64,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="button" value="Save" id="junglehunter-save" disabled>
             <input type="button" value="Delete" id="junglehunter-delete" disabled>
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
+            <input type="hidden" name="_method" value="POST">
         </form>
         <?php
         if (isset($errors)) {
