@@ -9,7 +9,8 @@ function validateBody($isCreating, &$name, &$start, &$url, &$description) {
         $errors['name'] = 'The name of the route is too long!';
     } else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
         $errors['name'] = 'This name already exists!';
-    } else {
+    }
+    if (isset($_POST['name'])) {
         $name = trim($_POST['name']);
     }
 
@@ -18,16 +19,18 @@ function validateBody($isCreating, &$name, &$start, &$url, &$description) {
         $errors['start'] = 'The start of the route cannot be empty!';
     } else if (strlen(trim($_POST['start'])) > 100) {
         $errors['start'] = 'The start of the route is too long!';
-    } else {
+    }
+    if (isset($_POST['start'])) {
         $start = trim($_POST['start']);
     }
 
-    $regex = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*/';
+    $regex = '/^(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*$/';
     if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match($regex, $_POST['url'], $matches, PREG_OFFSET_CAPTURE, 0) == 0)) {
         $errors['url'] = 'The url of the route is invalid!';
     } else if (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255) {
         $errors['url'] = 'The url is too long!';
-    } else {
+    }
+    if (isset($_POST['url'])) {
         $url = trim($_POST['url']);
     }
 
@@ -35,7 +38,8 @@ function validateBody($isCreating, &$name, &$start, &$url, &$description) {
         $errors['description'] = 'The description of the route cannot be empty!';
     } else if (strlen(trim($_POST['description'])) > 255) {
         $errors['description'] = 'The description of the route is too long!';
-    } else {
+    }
+    if (isset($_POST['description'])) {
         $description = trim($_POST['description']);
     }
 
