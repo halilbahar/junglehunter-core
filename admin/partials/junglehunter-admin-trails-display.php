@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Registered Routes:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
-        <tr onclick="test()">
+        <tr>
             <th>Id</th>
             <th>Name</th>
             <th>Length in kilometer</th>
