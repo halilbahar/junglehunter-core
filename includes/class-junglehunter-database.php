@@ -49,6 +49,13 @@ class JungleHunter_Database {
         return $wpdb->get_results($sql_routes_select);
     }
 
+    public static function junglehunter_get_route_by_name($name) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $sql_routes_select = "SELECT route_name, start, url, description FROM ${prefix}jh_route WHERE route_name = %s";
+        return $wpdb->get_row($wpdb->prepare($sql_routes_select, $name));
+    }
+
     public static function junglehunter_insert_route($name, $start, $url, $description) {
         global $wpdb;
         $prefix = $wpdb->prefix;
