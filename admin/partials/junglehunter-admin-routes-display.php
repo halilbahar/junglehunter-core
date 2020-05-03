@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           placeholder="A small description of the Route" rows="3"><?php echo $description ?></textarea>
             </div>
             <input type="submit" value="Create" id="junglehunter-create">
-            <input type="button" value="Save">
-            <input type="button" value="Delete" id="junglehunter-delete">
+            <input type="button" value="Save" id="junglehunter-save" disabled>
+            <input type="button" value="Delete" id="junglehunter-delete" disabled>
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
         </form>
         <?php

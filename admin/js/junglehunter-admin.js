@@ -17,6 +17,7 @@
         // Route functions //
         /////////////////////
         var createButton = $('#junglehunter-create');
+        var saveButton = $('#junglehunter-save');
         var deleteButton = $('#junglehunter-delete');
 
         $('#junglehunter-route-cancel').click(function () {
@@ -25,6 +26,8 @@
             $(formDivs).children('textarea').val('');
             $(formDivs).children('select').val('');
             createButton.prop('disabled', false);
+            saveButton.prop('disabled', true);
+            deleteButton.prop('disabled', true);
             tableRows.removeClass('junglehunter-selected-table');
         });
 
@@ -35,6 +38,8 @@
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
             createButton.prop('disabled', true);
+            saveButton.prop('disabled', false);
+            deleteButton.prop('disabled', false);
         });
 
         ////////////////////
