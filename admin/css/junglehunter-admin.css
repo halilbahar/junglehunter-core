@@ -19,6 +19,10 @@
     background-color: #f7f7f7;
 }
 
+#junglehunter-table tbody tr {
+    transition: 0.2s;
+}
+
 #junglehunter-table tbody tr:hover {
     background-color: #dfdfdf;
 }
