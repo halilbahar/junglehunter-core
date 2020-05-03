@@ -30,8 +30,7 @@
 
         function cancelCommon() {
             $('#junglehunter-original-unique-field').val('');
-            // Reset all fields
-            $('#junglehunter-form > div.junglehunter-input-row').children('input, textarea, select').val('');
+            resetFields();
             // Toggle the buttons - Create state
             createButton.prop('disabled', false);
             saveButton.prop('disabled', true);
@@ -41,6 +40,7 @@
 
         function clickCommon(uniqueField) {
             $('#junglehunter-original-unique-field').val(uniqueField);
+            resetFields();
             createButton.prop('disabled', true);
             saveButton.prop('disabled', false);
             deleteButton.prop('disabled', false);
@@ -55,13 +55,13 @@
 
         $('.junglehunter-route-tr').click(function () {
             var tds = getTd($(this).children('td'));
+            // Toggle the buttons - delete and save state
+            clickCommon(tds[0]);
             // Load from table
             $('#junglehunter-route-name').val(tds[0]);
             $('#junglehunter-route-start').val(tds[1]);
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
-            // Toggle the buttons - delete and save state
-            clickCommon(tds[0]);
         });
 
         ////////////////////
@@ -76,7 +76,13 @@
             return tdData;
         }
 
-        $('#junglehunter-form > div').children('input, textarea, select').keypress(function() {
+        function resetFields() {
+            var inputRows = $('#junglehunter-form > div.junglehunter-input-row');
+            inputRows.children('input, textarea, select').val('').removeClass('junglehunter-red-border');
+            inputRows.children('span.junglehunter-error-message').remove();
+        }
+
+        $('#junglehunter-form > div.junglehunter-input-row').children('input, textarea, select').keydown(function () {
             $(this).removeClass('junglehunter-red-border');
             $(this).parent().children('span.junglehunter-error-message').remove();
         });
