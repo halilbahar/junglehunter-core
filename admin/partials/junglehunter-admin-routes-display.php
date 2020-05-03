@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 ?>
 
 <div class="wrap">
-    <div><?php echo $response ?></div>
+    <?php if (isset($response) && $response != '') echo "<div id='junglehunter-status-bar'>$response</div>" ?>
     <div id="junglehunter-input">
         <h1>Insert Route:</h1>
         <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
