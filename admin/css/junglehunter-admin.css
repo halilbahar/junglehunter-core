@@ -72,3 +72,24 @@
 .junglehunter-red-border {
     border-color: red !important;
 }
+
+.junglehunter-button {
+    background-color: #DCDCDC;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+
+.junglehunter-button:hover:enabled {
+    background-color: #D3D3D3;
+}
+
+.junglehunter-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.junglehunter-buttons * {
+    margin-left: 0.8rem;
+}

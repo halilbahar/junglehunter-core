@@ -96,12 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <span class="junglehunter-error-message"><?php if (isset($errors['description']))
                         echo $errors['description'] ?></span>
             </div>
-            <input type="submit" value="Create" id="junglehunter-create">
-            <input type="submit" value="Save" id="junglehunter-save" disabled>
-            <input type="submit" value="Delete" id="junglehunter-delete" disabled>
-            <input type="button" value="Cancel" id="junglehunter-route-cancel">
-            <input type="hidden" id="junglehunter-method" name="_method" value="POST">
-            <input type="hidden" id="junglehunter-original-unique-field" name="original_name" value="what">
+            <div class="junglehunter-buttons">
+                <input type="button" value="Cancel" id="junglehunter-route-cancel" class="junglehunter-button">
+                <input type="submit" value="Delete" id="junglehunter-delete" disabled class="junglehunter-button">
+                <input type="submit" value="Save" id="junglehunter-save" disabled class="junglehunter-button">
+                <input type="submit" value="Create" id="junglehunter-create" class="junglehunter-button">
+            </div>
+            <input type="hidden" id="junglehunter-original-unique-field" name="original_name" class="junglehunter-button">
+            <input type="hidden" value="POST" id="junglehunter-method" name="_method" class="junglehunter-button">
         </form>
     </div>
     <h1>Registered Routes:</h1>

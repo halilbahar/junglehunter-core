@@ -31,7 +31,7 @@
         function cancelCommon() {
             $('#junglehunter-original-unique-field').val('');
             // Reset all fields
-            $('#junglehunter-form > div').children('input, textarea, select').val('');
+            $('#junglehunter-form > div.junglehunter-input-row').children('input, textarea, select').val('');
             // Toggle the buttons - Create state
             createButton.prop('disabled', false);
             saveButton.prop('disabled', true);
