@@ -13,33 +13,42 @@
             $(this).toggleClass('junglehunter-selected-table').siblings().removeClass('junglehunter-selected-table');
         });
 
-        /////////////////////
-        // Route functions //
-        /////////////////////
+        //////////////////////
+        // Common functions //
+        //////////////////////
         var createButton = $('#junglehunter-create');
         var saveButton = $('#junglehunter-save');
         var deleteButton = $('#junglehunter-delete');
-
-        var routeName = $('#junglehunter-route-name');
 
         deleteButton.click(function () {
             $('#junglehunter-method').val('DELETE');
         });
 
-        $('#junglehunter-route-cancel').click(function () {
-            var formDivs = $('#junglehunter-form > div');
+        function cancelCommon() {
             // Reset all fields
-            $(formDivs).children('input').val('');
-            $(formDivs).children('textarea').val('');
-            $(formDivs).children('select').val('');
+            $('#junglehunter-form > div').children('input, textarea, select').val('');
             // Toggle the buttons - Create state
             createButton.prop('disabled', false);
             saveButton.prop('disabled', true);
             deleteButton.prop('disabled', true);
+            tableRows.removeClass('junglehunter-selected-table');
+        }
+
+        function clickCommon() {
+            createButton.prop('disabled', true);
+            saveButton.prop('disabled', false);
+            deleteButton.prop('disabled', false);
+        }
+
+        /////////////////////
+        // Route functions //
+        /////////////////////
+        var routeName = $('#junglehunter-route-name');
+
+        $('#junglehunter-route-cancel').click(function () {
+            cancelCommon();
             // Make unique field writeable
             routeName.prop('readonly', false);
-
-            tableRows.removeClass('junglehunter-selected-table');
         });
 
         $('.junglehunter-route-tr').click(function () {
@@ -50,9 +59,7 @@
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
             // Toggle the buttons - delete and save state
-            createButton.prop('disabled', true);
-            saveButton.prop('disabled', false);
-            deleteButton.prop('disabled', false);
+            clickCommon();
             // Make unique field read only
             routeName.prop('readonly', true);
         });
