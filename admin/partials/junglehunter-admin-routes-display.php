@@ -1,6 +1,6 @@
 <?php
-$name = $start = $url = $description = $response = '';
-function validateBody($isCreating) {
+$name = $original_name = $start = $url = $description = $response = '';
+function validateBody($isCreating, &$name, &$start, &$url, &$description) {
     $errors = array();
 
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
@@ -9,6 +9,8 @@ function validateBody($isCreating) {
         $errors['name'] = 'The name of the route is too long!';
     } else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
         $errors['name'] = 'This name already exists!';
+    } else {
+        $name = trim($_POST['name']);
     }
 
 
@@ -16,6 +18,8 @@ function validateBody($isCreating) {
         $errors['start'] = 'The start of the route cannot be empty!';
     } else if (strlen(trim($_POST['start'])) > 100) {
         $errors['start'] = 'The start of the route is too long!';
+    } else {
+        $start = trim($_POST['start']);
     }
 
     $regex = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*/';
@@ -23,24 +27,26 @@ function validateBody($isCreating) {
         $errors['url'] = 'The url of the route is invalid!';
     } else if (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255) {
         $errors['url'] = 'The url is too long!';
+    } else {
+        $url = trim($_POST['url']);
     }
 
     if (!isset($_POST['description']) || (strlen(trim($_POST['description'])) == 0)) {
         $errors['description'] = 'The description of the route cannot be empty!';
     } else if (strlen(trim($_POST['description'])) > 255) {
         $errors['description'] = 'The description of the route is too long!';
+    } else {
+        $description = trim($_POST['description']);
     }
 
     return $errors;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
+
     if ($_POST['_method'] == 'POST') {
-        $errors = validateBody(true);
-        $name = trim($_POST['name']);
-        $start = trim($_POST['start']);
-        $url = trim($_POST['url']);
-        $description = trim($_POST['description']);
+
+        $errors = validateBody(true, $name, $start, $url, $description);
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
             $response = 'A new Route was created!';
@@ -48,20 +54,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         }
 
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
+
         $response = JungleHunter_Database::junglehunter_delete_route($_POST['original_name']) ? 'The route was deleted!' : 'This route does not exist!';
 
     } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
-        $errors = validateBody(false);
+
+        $errors = validateBody(false, $name, $start, $url, $description);
+        $original_name = $_POST['original_name'];
         if (empty($errors)) {
-            $isUpdated = JungleHunter_Database::junglehunter_update_route($_POST['original_name'], $_POST['name'], $_POST['start'], $_POST['url'], $_POST['description']);
-            $response = $isUpdated ? 'The Route was updated!' : 'Nothing was changed!';
+            $is_updated = JungleHunter_Database::junglehunter_update_route($original_name, $name, $start, $url, $description);
+            $response = $is_updated ? 'The Route was updated!' : 'Nothing was changed!';
+            $name = $start = $url = $description = '';
         }
+
     }
 }
 ?>
 
 <div class="wrap">
-    <?php if (isset($response) && $response != '') echo "<div id='junglehunter-status-bar'>$response</div>" ?>
+    <?php if (isset($response) && $response != '')
+        echo "<div id='junglehunter-status-bar'>$response</div>" ?>
     <div id="junglehunter-input">
         <h1>Insert Route:</h1>
         <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
@@ -102,13 +114,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                         echo $errors['description'] ?></span>
             </div>
             <div class="junglehunter-buttons">
+                <?php $is_creating = $original_name == '' ?>
                 <input type="button" value="Cancel" id="junglehunter-route-cancel" class="junglehunter-button">
-                <input type="submit" value="Delete" id="junglehunter-delete" disabled class="junglehunter-button">
-                <input type="submit" value="Save" id="junglehunter-save" disabled class="junglehunter-button">
-                <input type="submit" value="Create" id="junglehunter-create" class="junglehunter-button">
+                <input type="submit" value="Delete" id="junglehunter-delete" <?php if ($is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
+                <input type="submit" value="Save" id="junglehunter-save" <?php if ($is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
+                <input type="submit" value="Create" id="junglehunter-create" <?php if (!$is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
             </div>
             <input type="hidden" id="junglehunter-original-unique-field" name="original_name"
-                   class="junglehunter-button">
+                   class="junglehunter-button" value="<?php echo $original_name ?>">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method" class="junglehunter-button">
         </form>
     </div>
@@ -126,7 +142,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $routes = JungleHunter_Database::junglehunter_get_routes();
         foreach ($routes as $route) {
-            echo '<tr class="junglehunter-route-tr">';
+            $selected_class = $route->route_name == $original_name ? 'junglehunter-selected-table' : '';
+            echo "<tr class='junglehunter-route-tr $selected_class'>";
             echo "<td>$route->route_name</td>";
             echo "<td>$route->start</td>";
             echo "<td>$route->url</td>";
