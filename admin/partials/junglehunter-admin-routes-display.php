@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
         $routes = JungleHunter_Database::junglehunter_get_routes();
         foreach ($routes as $route) {
-            echo '<tr>';
+            echo '<tr class="junglehunter-route-tr">';
             echo "<td>$route->route_name</td>";
             echo "<td>$route->start</td>";
             echo "<td>$route->url</td>";
