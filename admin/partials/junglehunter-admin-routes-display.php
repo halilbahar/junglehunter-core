@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         $errors = validateBody();
         if (empty($errors)) {
             $isUpdated = JungleHunter_Database::junglehunter_update_route($_POST['name'], $_POST['start'], $_POST['url'], $_POST['description']);
-            $response = $isUpdated ? 'The Route was updated!' : 'The update failed!';
+            $response = $isUpdated ? 'The Route was updated!' : 'Nothing was changed!';
         }
     }
 }
