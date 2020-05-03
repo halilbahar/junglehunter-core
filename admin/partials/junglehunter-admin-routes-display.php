@@ -63,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             </div>
             <input type="submit" value="Create" id="junglehunter-create">
             <input type="button" value="Save" id="junglehunter-save" disabled>
-            <input type="button" value="Delete" id="junglehunter-delete" disabled>
+            <input type="submit" value="Delete" id="junglehunter-delete" disabled>
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
-            <input type="hidden" name="_method" value="POST">
+            <input type="hidden" id="junglehunter-method" name="_method" value="POST">
         </form>
         <?php
         if (isset($errors)) {

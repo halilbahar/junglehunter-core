@@ -20,6 +20,10 @@
         var saveButton = $('#junglehunter-save');
         var deleteButton = $('#junglehunter-delete');
 
+        deleteButton.click(function () {
+            $('#junglehunter-method').val('DELETE');
+        });
+
         $('#junglehunter-route-cancel').click(function () {
             var formDivs = $('#junglehunter-form > div');
             $(formDivs).children('input').val('');
