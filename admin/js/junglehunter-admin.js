@@ -13,9 +13,10 @@
         });
 
         $('#junglehunter-route-cancel').click(function () {
-            $('#junglehunter-form > div > input').val('');
-            $('#junglehunter-form > div > textarea').val('');
-            $('#junglehunter-form > div > select').val('');
+            var formDivs = $('#junglehunter-form > div');
+            $(formDivs).children('input').val('');
+            $(formDivs).children('textarea').val('');
+            $(formDivs).children('select').val('');
         });
 
         $('.junglehunter-route-tr').click(function () {
