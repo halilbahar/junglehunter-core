@@ -1,13 +1,13 @@
 <?php
 $name = $start = $url = $description = $response = '';
-function validateBody() {
+function validateBody($isCreating) {
     $errors = array();
 
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the route cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
         $errors['name'] = 'The name of the route is too long!';
-    } else if (JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
+    } else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
         $errors['name'] = 'This name already exists!';
     }
 
@@ -36,7 +36,7 @@ function validateBody() {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
-        $errors = validateBody();
+        $errors = validateBody(true);
         $name = trim($_POST['name']);
         $start = trim($_POST['start']);
         $url = trim($_POST['url']);
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         $response = JungleHunter_Database::junglehunter_delete_route($_POST['original_name']) ? 'The route was deleted!' : 'This route does not exist!';
 
     } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
-        $errors = validateBody();
+        $errors = validateBody(false);
         if (empty($errors)) {
             $isUpdated = JungleHunter_Database::junglehunter_update_route($_POST['original_name'], $_POST['name'], $_POST['start'], $_POST['url'], $_POST['description']);
             $response = $isUpdated ? 'The Route was updated!' : 'Nothing was changed!';
