@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
             $name = $length = $route = '';
         }
+    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
+        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['original_name']) ? 'The trail was deleted!' : 'This trail does not exist!';
     }
 
 }
