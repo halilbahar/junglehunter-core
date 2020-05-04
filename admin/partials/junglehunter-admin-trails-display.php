@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             <input type="hidden" value="POST" id="junglehunter-method" name="_method">
         </form>
     </div>
-    <h1>Registered Routes:</h1>
+    <h1>All Trails:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
         <tr>
