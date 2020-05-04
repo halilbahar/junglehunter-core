@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         if (empty($errors)) {
             $is_updated = JungleHunter_Database::junglehunter_update_route($original_name, $name, $start, $url, $description);
             $response = $is_updated ? 'The Route was updated!' : 'Nothing was changed!';
-            $name = $start = $url = $description = '';
+            $name = $original_name = $start = $url = $description = '';
         }
 
     }
