@@ -35,7 +35,7 @@ function validateBody($isCreating, &$name, &$length, &$route, $routes) {
     return $errors;
 }
 
-$name = $length = $route = '';
+$name = $original_name = $length = $route = '';
 $routes = JungleHunter_Database::junglehunter_get_routes();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
@@ -98,10 +98,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <span class="junglehunter-error-message"><?php if (isset($errors['route']))
                         echo $errors['route'] ?></span>
             </div>
-            <input type="submit" value="Create">
-            <input type="button" value="Save">
-            <input type="button" value="Delete">
-            <input type="button" value="Cancel" id="junglehunter-route-cancel">
+            <div class="junglehunter-buttons">
+                <?php $is_creating = $original_name == '' ?>
+                <input type="button" value="Cancel" id="junglehunter-cancel" class="junglehunter-button">
+                <input type="submit" value="Delete" id="junglehunter-delete" <?php if ($is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
+                <input type="submit" value="Save" id="junglehunter-save" <?php if ($is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
+                <input type="submit" value="Create" id="junglehunter-create" <?php if (!$is_creating)
+                    echo 'disabled' ?> class="junglehunter-button">
+            </div>
+            <input type="hidden" id="junglehunter-original-unique-field" name="original_name"
+                   class="junglehunter-button" value="<?php echo $original_name ?>">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method">
         </form>
     </div>

@@ -28,7 +28,7 @@
             $('#junglehunter-method').val('DELETE');
         });
 
-        function cancelCommon() {
+        $('#junglehunter-cancel').click(function cancelCommon() {
             $('#junglehunter-original-unique-field').val('');
             resetFields();
             // Toggle the buttons - Create state
@@ -36,7 +36,7 @@
             saveButton.prop('disabled', true);
             deleteButton.prop('disabled', true);
             tableRows.removeClass('junglehunter-selected-table');
-        }
+        });
 
         function clickCommon(uniqueField) {
             $('#junglehunter-original-unique-field').val(uniqueField);
@@ -49,9 +49,6 @@
         /////////////////////
         // Route functions //
         /////////////////////
-        $('#junglehunter-route-cancel').click(function () {
-            cancelCommon();
-        });
 
         $('.junglehunter-route-tr').click(function () {
             var tds = getTd($(this).children('td'));
@@ -63,6 +60,10 @@
             $('#junglehunter-route-url').val(tds[2]);
             $('#junglehunter-route-description').val(tds[3]);
         });
+
+        /////////////////////
+        // Trail functions //
+        /////////////////////
 
         ////////////////////
         // Help functions //

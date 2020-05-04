@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             </div>
             <div class="junglehunter-buttons">
                 <?php $is_creating = $original_name == '' ?>
-                <input type="button" value="Cancel" id="junglehunter-route-cancel" class="junglehunter-button">
+                <input type="button" value="Cancel" id="junglehunter-cancel" class="junglehunter-button">
                 <input type="submit" value="Delete" id="junglehunter-delete" <?php if ($is_creating)
                     echo 'disabled' ?> class="junglehunter-button">
                 <input type="submit" value="Save" id="junglehunter-save" <?php if ($is_creating)
