@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-route">Route:</label>
                 <select name="route" id="junglehunter-trail-route"
-                        class="<?php if (isset($errors['length']))
+                        class="<?php if (isset($errors['route']))
                             echo 'junglehunter-red-border' ?>">
                     <?php
                     $hasSelected = false;
