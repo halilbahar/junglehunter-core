@@ -35,12 +35,18 @@ function validateBody($isCreating, &$name, &$length, &$route, $routes) {
     return $errors;
 }
 
-    if (empty($errors)) {
-        JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
-        $name = '';
-        $length = '';
-        $route = '';
+$name = $length = $route = '';
+$routes = JungleHunter_Database::junglehunter_get_routes();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
+    if ($_POST['_method'] == 'POST') {
+        $errors = validateBody(true, $name, $length, $route, $routes);
+        if (empty($errors)) {
+            JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
+            $name = $length = $route = '';
+        }
     }
+
 }
 
 ?>
@@ -52,33 +58,45 @@ function validateBody($isCreating, &$name, &$length, &$route, $routes) {
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-name">Name:</label>
                 <input type="text" id="junglehunter-trail-name" name="name" placeholder="A name for the Trail"
-                       value="<?php echo $name ?>">
+                       value="<?php echo $name ?>"
+                       class="<?php if (isset($errors['name']))
+                           echo 'junglehunter-red-border' ?>">
+                <span class="junglehunter-error-message"><?php if (isset($errors['name']))
+                        echo $errors['name'] ?></span>
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-length">Length:</label>
                 <input type="text" id="junglehunter-trail-length" name="length"
                        placeholder="The length of the trail in kilometer"
+                       oninput="this.value = this.value.replace(/[^0-9,]/g, '').replace(/(,.*),/g, '$1');"
                        value="<?php echo $length ?>"
-                       oninput="this.value = this.value.replace(/[^0-9,]/g, '').replace(/(,.*),/g, '$1');">
+                       class="<?php if (isset($errors['length']))
+                           echo 'junglehunter-red-border' ?>">
+                <span class="junglehunter-error-message"><?php if (isset($errors['length']))
+                        echo $errors['length'] ?></span>
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-route">Route:</label>
-                <select name="route" id="junglehunter-trail-route">
+                <select name="route" id="junglehunter-trail-route"
+                        class="<?php if (isset($errors['length']))
+                            echo 'junglehunter-red-border' ?>">
                     <?php
                     $hasSelected = false;
                     foreach ($routes as $single_route) {
-                        $isSelected = '';
+                        $is_selected = '';
                         if ($single_route->route_name == $route) {
-                            $isSelected = 'selected';
+                            $is_selected = 'selected';
                             $hasSelected = true;
                         }
-                        echo "<option $isSelected value='$single_route->route_name'>$single_route->route_name</option>";
+                        echo "<option $is_selected value='$single_route->route_name'>$single_route->route_name</option>";
                     }
                     ?>
                     <option value="" <?php echo($hasSelected ? '' : 'selected') ?> disabled hidden>
                         The Route that the Trail belongs to
                     </option>
                 </select>
+                <span class="junglehunter-error-message"><?php if (isset($errors['route']))
+                        echo $errors['route'] ?></span>
             </div>
             <input type="submit" value="Create">
             <input type="button" value="Save">
@@ -86,13 +104,6 @@ function validateBody($isCreating, &$name, &$length, &$route, $routes) {
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method">
         </form>
-        <?php
-        if (isset($errors)) {
-            foreach ($errors as $error) {
-                echo $error . '<br>';
-            }
-        }
-        ?>
     </div>
     <h1>Registered Routes:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">
