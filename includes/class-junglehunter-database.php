@@ -96,6 +96,13 @@ class JungleHunter_Database {
         return $wpdb->get_results($sql_trails_select);
     }
 
+    public static function junglehunter_get_trail_by_name($name) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $sql_trail_select = "SELECT trail_name, length, route_name FROM ${prefix}jh_trail WHERE trail_name = %s";
+        return $wpdb->get_row($wpdb->prepare($sql_trail_select, $name));
+    }
+
     public static function junglehunter_insert_trail($name, $length, $route) {
         global $wpdb;
         $prefix = $wpdb->prefix;
