@@ -2,6 +2,7 @@
 function validateBody(&$name, &$length, &$route, $routes) {
     $errors = array();
 
+    // Validate name if it is: empty, too long, already existing
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the Trail cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
@@ -12,24 +13,27 @@ function validateBody(&$name, &$length, &$route, $routes) {
             $errors['name'] = 'This name already exists!';
         }
     }
-    if (isset($_POST['name'])) {
-        $name = trim($_POST['name']);
-    }
 
+    // Validate length if it is: empty, a number
     if (!isset($_POST['length']) || (strlen(trim($_POST['length'])) == 0)) {
         $errors['length'] = 'The length of the trail cannot be empty!';
     } else if (!is_numeric(str_replace(',', '.', $_POST['length']))) {
         var_dump($_POST);
         $errors['length'] = 'The length of the trail needs to be a number!';
     }
-    if (isset($_POST['length'])) {
-        $length = trim($_POST['length']);
-    }
 
+    // Validate route if it is: empty, exists
     if (!isset($_POST['route'])) {
         $errors['route'] = 'The route of the trail needs to be set!';
     } else if (in_array($route, $routes, true)) {
         $errors['route'] = 'This route does not exist!';
+    }
+
+    if (isset($_POST['name'])) {
+        $name = trim($_POST['name']);
+    }
+    if (isset($_POST['length'])) {
+        $length = trim($_POST['length']);
     }
     if (isset($_POST['route'])) {
         $route = trim($_POST['route']);
