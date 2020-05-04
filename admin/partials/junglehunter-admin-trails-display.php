@@ -16,7 +16,8 @@ function validateBody($isCreating, &$name, &$length, &$route, $routes) {
 
     if (!isset($_POST['length']) || (strlen(trim($_POST['length'])) == 0)) {
         $errors['length'] = 'The length of the trail cannot be empty!';
-    } else if (!is_numeric(str_replace(',', '.', $length))) {
+    } else if (!is_numeric(str_replace(',', '.', $_POST['length']))) {
+        var_dump($_POST);
         $errors['length'] = 'The length of the trail needs to be a number!';
     }
     if (isset($_POST['length'])) {
@@ -117,7 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Length in kilometer</th>
             <th>Route</th>
@@ -128,7 +128,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         $trails = JungleHunter_Database::junglehunter_get_trails();
         foreach ($trails as $trail) {
             echo '<tr>';
-            echo "<td>$trail->trail_id</td>";
             echo "<td>$trail->trail_name</td>";
             echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
             echo "<td>$trail->route_name</td>";

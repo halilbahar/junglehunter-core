@@ -14,26 +14,24 @@ class JungleHunter_Database {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         $sql_trail = "CREATE TABLE IF NOT EXISTS {$prefix}jh_trail (
-            trail_id INT(11) NOT NULL AUTO_INCREMENT,
             trail_name VARCHAR(100) NOT NULL,
             length DOUBLE NOT NULL,
             route_name VARCHAR(100) NOT NULL,
-            CONSTRAINT PK_jh_trail PRIMARY KEY (trail_id),
+            CONSTRAINT PK_jh_trail PRIMARY KEY (trail_name),
             CONSTRAINT FK_jh_route_jh_trail FOREIGN KEY (route_name) 
                 REFERENCES {$prefix}jh_route (route_name) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         $sql_control_point = "CREATE TABLE IF NOT EXISTS {$prefix}jh_control_point (
-            control_point_id INT(11) NOT NULL AUTO_INCREMENT,
-            name VARCHAR(50) NOT NULL,
+            control_point_name VARCHAR(50) NOT NULL,
             comment VARCHAR(255) NOT NULL,
             note VARCHAR(255) NOT NULL,
-            trail_id INT(11) NOT NULL,
             latitude DOUBLE NOT NULL,
             longitude DOUBLE NOT NULL,
-            CONSTRAINT PK_jh_control_point PRIMARY KEY (control_point_id),
-            CONSTRAINT FK_jh_trail_jh_control_point FOREIGN KEY (trail_id) 
-                REFERENCES {$prefix}jh_trail (trail_id) ON DELETE CASCADE ON UPDATE CASCADE
+            trail_name VARCHAR(100) NOT NULL,
+            CONSTRAINT PK_jh_control_point PRIMARY KEY (control_point_name),
+            CONSTRAINT FK_jh_trail_jh_control_point FOREIGN KEY (trail_name) 
+                REFERENCES {$prefix}jh_trail (trail_name) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -94,7 +92,7 @@ class JungleHunter_Database {
     public static function junglehunter_get_trails() {
         global $wpdb;
         $prefix = $wpdb->prefix;
-        $sql_trails_select = "SELECT trail_id, trail_name, length, route_name FROM ${prefix}jh_trail";
+        $sql_trails_select = "SELECT trail_name, length, route_name FROM ${prefix}jh_trail";
         return $wpdb->get_results($sql_trails_select);
     }
 
