@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     <?php if (isset($response) && $response != '')
         echo "<div id='junglehunter-status-bar'>$response</div>" ?>
     <div id="junglehunter-input">
-        <h1>Insert Route:</h1>
+        <h1>Create new Route:</h1>
         <form action="<?php menu_page_url("junglehunter-routes") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
                 <label for="junglehunter-route-name">Name:</label>
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             <input type="hidden" value="POST" id="junglehunter-method" name="_method" class="junglehunter-button">
         </form>
     </div>
-    <h1>Registered Routes:</h1>
+    <h1>All Routes:</h1>
     <table id="junglehunter-table" class="junglehunter-unselectable">
         <thead>
         <tr>
