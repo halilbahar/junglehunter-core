@@ -1,14 +1,17 @@
 <?php
 $name = $original_name = $start = $url = $description = $response = '';
-function validateBody($isCreating, &$name, &$start, &$url, &$description) {
+function validateBody(&$name, &$start, &$url, &$description) {
     $errors = array();
 
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the route cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
         $errors['name'] = 'The name of the route is too long!';
-    } else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
-        $errors['name'] = 'This name already exists!';
+    } else {
+        $row = JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name']));
+        if ($row != NULL && isset($_POST['original_name']) && $row->route_name != $_POST['original_name']) {
+            $errors['name'] = 'This name already exists!';
+        }
     }
     if (isset($_POST['name'])) {
         $name = trim($_POST['name']);
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 
     if ($_POST['_method'] == 'POST') {
 
-        $errors = validateBody(true, $name, $start, $url, $description);
+        $errors = validateBody($name, $start, $url, $description);
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
             $response = 'A new Route was created!';
@@ -63,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 
     } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
 
-        $errors = validateBody(false, $name, $start, $url, $description);
+        $errors = validateBody($name, $start, $url, $description);
         $original_name = $_POST['original_name'];
         if (empty($errors)) {
             $is_updated = JungleHunter_Database::junglehunter_update_route($original_name, $name, $start, $url, $description);
