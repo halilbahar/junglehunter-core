@@ -1,15 +1,17 @@
 <?php
-function validateBody($isCreating, &$name, &$length, &$route, $routes) {
+function validateBody(&$name, &$length, &$route, $routes) {
     $errors = array();
 
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the Trail cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
         $errors['name'] = 'The name of the trail is too long!';
+    } else {
+        $row = JungleHunter_Database::junglehunter_get_trail_by_name(trim($_POST['name']));
+        if ($row != NULL && isset($_POST['original_name']) && $row->trail_name != $_POST['original_name']) {
+            $errors['name'] = 'This name already exists!';
+        }
     }
-//    else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
-//        $errors['name'] = 'This name already exists!';
-//    }
     if (isset($_POST['name'])) {
         $name = trim($_POST['name']);
     }
@@ -41,7 +43,7 @@ $routes = JungleHunter_Database::junglehunter_get_routes();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
-        $errors = validateBody(true, $name, $length, $route, $routes);
+        $errors = validateBody($name, $length, $route, $routes);
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
             $name = $length = $route = '';
