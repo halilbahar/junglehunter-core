@@ -54,8 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         }
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
         $response = JungleHunter_Database::junglehunter_delete_trail($_POST['original_name']) ? 'The trail was deleted!' : 'This trail does not exist!';
+    } else if($_POST['_method'] == 'PUT' && isset($_POST['original_name'])) {
+        $errors = validateBody($name, $length, $route, $routes);
+        $original_name = $_POST['original_name'];
+        if (empty($errors)) {
+            $is_updated = JungleHunter_Database::junglehunter_update_trail($original_name, $name, floatval(str_replace(',', '.', $length)), $route);
+            $response = $is_updated ? 'The Trail was updated!' : 'Nothing was changed!';
+            $name = $original_name = $length = $route = '';
+        }
     }
-
 }
 
 ?>

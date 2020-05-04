@@ -116,10 +116,23 @@ class JungleHunter_Database {
         $wpdb->insert("${prefix}jh_trail", $data);
     }
 
-    public  static function junglehunter_delete_trail($name) {
+    public static function junglehunter_delete_trail($name) {
         global $wpdb;
         $prefix = $wpdb->prefix;
 
         return $wpdb->delete("${prefix}jh_trail", array('trail_name' => $name)) == 1;
+    }
+
+    public static function junglehunter_update_trail($original_name, $name, $length, $route) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        $data = array(
+            'trail_name' => $name,
+            'length' => $length,
+            'route_name' => $route
+        );
+
+        return $wpdb->update("${prefix}jh_trail", $data, array('trail_name' => $original_name));
     }
 }
