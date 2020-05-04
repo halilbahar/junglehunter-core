@@ -65,6 +65,16 @@
         // Trail functions //
         /////////////////////
 
+        $('.junglehunter-trail-tr').click(function () {
+            var tds = getTd($(this).children('td'));
+            // Toggle the buttons - delete and save state
+            clickCommon(tds[0]);
+            // Load from table
+            $('#junglehunter-trail-name').val(tds[0]);
+            $('#junglehunter-trail-length').val(tds[1]);
+            $('#junglehunter-trail-route').val(tds[2]);
+        });
+
         ////////////////////
         // Help functions //
         ////////////////////

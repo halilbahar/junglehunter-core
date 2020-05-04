@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $trails = JungleHunter_Database::junglehunter_get_trails();
         foreach ($trails as $trail) {
-            echo '<tr>';
+            echo '<tr class="junglehunter-trail-tr">';
             echo "<td>$trail->trail_name</td>";
             echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
             echo "<td>$trail->route_name</td>";
