@@ -42,7 +42,7 @@ function validateBody(&$name, &$length, &$route, $routes) {
     return $errors;
 }
 
-$name = $original_name = $length = $route = '';
+$name = $original_name = $length = $route = $response = '';
 $routes = JungleHunter_Database::junglehunter_get_routes();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
@@ -50,10 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         $errors = validateBody($name, $length, $route, $routes);
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
+            $response = 'A new Trail was created!';
             $name = $length = $route = '';
         }
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
-        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['original_name']) ? 'The trail was deleted!' : 'This trail does not exist!';
+        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['original_name']) ? 'The Trail was deleted!' : 'This Trail does not exist!';
     } else if($_POST['_method'] == 'PUT' && isset($_POST['original_name'])) {
         $errors = validateBody($name, $length, $route, $routes);
         $original_name = $_POST['original_name'];
@@ -68,8 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
 ?>
 
 <div class="wrap">
+    <?php if (isset($response) && $response != '')
+        echo "<div id='junglehunter-status-bar'>$response</div>" ?>
     <div id="junglehunter-input">
-        <h1>Insert Trail:</h1>
+        <h1>Create new Trail:</h1>
         <form action="<?php menu_page_url("junglehunter-trails") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-name">Name:</label>
