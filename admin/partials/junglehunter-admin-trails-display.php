@@ -1,26 +1,39 @@
 <?php
-$name = '';
-$length = '';
-$route = '';
-$routes = JungleHunter_Database::junglehunter_get_routes();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+function validateBody($isCreating, &$name, &$length, &$route, $routes) {
     $errors = array();
-    $name = $_POST['name'];
-    if (!$name || strlen($name) == 0 || strlen($name) > 100) {
-        $errors['name'] = 'The name of the trail needs to be at least 1 and max 100 characters!';
+
+    if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
+        $errors['name'] = 'The name of the Trail cannot be empty!';
+    } else if (strlen(trim($_POST['name'])) > 100) {
+        $errors['name'] = 'The name of the trail is too long!';
+    }
+//    else if ($isCreating && JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name'])) != NULL) {
+//        $errors['name'] = 'This name already exists!';
+//    }
+    if (isset($_POST['name'])) {
+        $name = trim($_POST['name']);
     }
 
-    $length = $_POST['length'];
-    $lengthConverted = str_replace(',', '.', $length);
-    if (!$length || !is_numeric($lengthConverted) || $lengthConverted <= 0) {
-        $errors['start'] = 'The length of the trail needs to bet set and must be bigger than 0!';
+    if (!isset($_POST['length']) || (strlen(trim($_POST['length'])) == 0)) {
+        $errors['length'] = 'The length of the trail cannot be empty!';
+    } else if (!is_numeric(str_replace(',', '.', $length))) {
+        $errors['length'] = 'The length of the trail needs to be a number!';
+    }
+    if (isset($_POST['length'])) {
+        $length = trim($_POST['length']);
     }
 
-    $route = $_POST['route'];
-    if (!$route || in_array($route, $routes, true)) {
+    if (!isset($_POST['route'])) {
         $errors['route'] = 'The route of the trail needs to be set!';
+    } else if (in_array($route, $routes, true)) {
+        $errors['route'] = 'This route does not exist!';
     }
+    if (isset($_POST['route'])) {
+        $route = trim($_POST['route']);
+    }
+
+    return $errors;
+}
 
     if (empty($errors)) {
         JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
@@ -71,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="button" value="Save">
             <input type="button" value="Delete">
             <input type="button" value="Cancel" id="junglehunter-route-cancel">
+            <input type="hidden" value="POST" id="junglehunter-method" name="_method">
         </form>
         <?php
         if (isset($errors)) {
