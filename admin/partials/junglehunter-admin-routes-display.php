@@ -1,8 +1,8 @@
 <?php
-$name = $original_name = $start = $url = $description = $response = '';
 function validateBody(&$name, &$start, &$url, &$description) {
     $errors = array();
 
+    // Validate name if it is: empty, too long, already existing
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the route cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 100) {
@@ -13,34 +13,37 @@ function validateBody(&$name, &$start, &$url, &$description) {
             $errors['name'] = 'This name already exists!';
         }
     }
-    if (isset($_POST['name'])) {
-        $name = trim($_POST['name']);
-    }
 
-
+    // Validate start if it is: empty, too long
     if (!isset($_POST['start']) || (strlen(trim($_POST['start'])) == 0)) {
         $errors['start'] = 'The start of the route cannot be empty!';
     } else if (strlen(trim($_POST['start'])) > 100) {
         $errors['start'] = 'The start of the route is too long!';
     }
-    if (isset($_POST['start'])) {
-        $start = trim($_POST['start']);
-    }
 
+    // Validate url if it is: empty, valid url, too long
     $regex = '/^(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*$/';
     if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match($regex, $_POST['url'], $matches, PREG_OFFSET_CAPTURE, 0) == 0)) {
         $errors['url'] = 'The url of the route is invalid!';
     } else if (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255) {
         $errors['url'] = 'The url is too long!';
     }
-    if (isset($_POST['url'])) {
-        $url = trim($_POST['url']);
-    }
 
+    // Validate description if it is: empty, too long
     if (!isset($_POST['description']) || (strlen(trim($_POST['description'])) == 0)) {
         $errors['description'] = 'The description of the route cannot be empty!';
     } else if (strlen(trim($_POST['description'])) > 255) {
         $errors['description'] = 'The description of the route is too long!';
+    }
+
+    if (isset($_POST['name'])) {
+        $name = trim($_POST['name']);
+    }
+    if (isset($_POST['start'])) {
+        $start = trim($_POST['start']);
+    }
+    if (isset($_POST['url'])) {
+        $url = trim($_POST['url']);
     }
     if (isset($_POST['description'])) {
         $description = trim($_POST['description']);
@@ -49,31 +52,34 @@ function validateBody(&$name, &$start, &$url, &$description) {
     return $errors;
 }
 
+$name = $original_name = $start = $url = $description = $response = '';
+// Handle form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
-
     if ($_POST['_method'] == 'POST') {
-
+        // Create route
+        // Get errors
         $errors = validateBody($name, $start, $url, $description);
+        // Check if everything is valid if yes insert, set a response
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_route($name, $start, $url, $description);
             $response = 'A new Route was created!';
             $name = $start = $url = $description = '';
         }
-
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
-
+        // Delete route
+        // Try to delete and output based on the changed rows
         $response = JungleHunter_Database::junglehunter_delete_route($_POST['original_name']) ? 'The route was deleted!' : 'This route does not exist!';
-
-    } else if ($_POST['_method'] == 'PUT' && $_POST['original_name']) {
-
+    } else if ($_POST['_method'] == 'PUT' && isset($_POST['original_name'])) {
+        // Update route
+        // Get errors
         $errors = validateBody($name, $start, $url, $description);
         $original_name = $_POST['original_name'];
+        // Check if everything is valid if yes update, set a response based on the updated rows
         if (empty($errors)) {
             $is_updated = JungleHunter_Database::junglehunter_update_route($original_name, $name, $start, $url, $description);
             $response = $is_updated ? 'The Route was updated!' : 'Nothing was changed!';
             $name = $original_name = $start = $url = $description = '';
         }
-
     }
 }
 ?>
