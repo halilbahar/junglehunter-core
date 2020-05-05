@@ -5,33 +5,32 @@ class Junglehunter_Control_Point {
     /**
      * @var int
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      */
-    private $name;
+    public $name;
 
     /**
      * @var string
      */
-    private $comment;
+    public $comment;
 
     /**
      * @var string
      */
-    private $note;
-
+    public $note;
 
     /**
      * @var float
      */
-    private $latitude;
+    public $latitude;
 
     /**
      * @var float
      */
-    private $longitude;
+    public $longitude;
 
     /**
      * Control_Point constructor.
@@ -48,90 +47,6 @@ class Junglehunter_Control_Point {
         $this->comment = $comment;
         $this->note = $note;
         $this->latitude = $latitude;
-        $this->longitude = $longitude;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment() {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     */
-    public function setComment($comment) {
-        $this->comment = $comment;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNote() {
-        return $this->note;
-    }
-
-    /**
-     * @param string $note
-     */
-    public function setNote($note) {
-        $this->note = $note;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLatitude() {
-        return $this->latitude;
-    }
-
-    /**
-     * @param float $latitude
-     */
-    public function setLatitude($latitude) {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLongitude() {
-        return $this->longitude;
-    }
-
-    /**
-     * @param float $longitude
-     */
-    public function setLongitude($longitude) {
         $this->longitude = $longitude;
     }
 }
