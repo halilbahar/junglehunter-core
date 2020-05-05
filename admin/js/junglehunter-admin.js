@@ -99,5 +99,9 @@
             $(this).removeClass('junglehunter-red-border');
             $(this).parent().children('span.junglehunter-error-message').remove();
         });
+
+        $('.junglehunter-number-input').on('input', function () {
+            this.value = this.value.replace(/[^0-9,]/g, '').replace(/(,.*),/g, '$1');
+        });
     });
 })(jQuery);
