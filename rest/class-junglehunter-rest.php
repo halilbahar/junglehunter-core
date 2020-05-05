@@ -45,17 +45,14 @@ class Junglehunter_Rest {
 
     public function register_routes() {
         $namespace = 'junglehunter/v1';
-        register_rest_route($namespace, '/test', array(
+        register_rest_route($namespace, '/all', array(
             'methods' => 'GET',
-            'callback' => array($this, 'junglehunter_get_callback')
+            'callback' => array($this, 'junglehunter_get_all')
         ));
     }
 
-    public function junglehunter_get_callback(\WP_REST_Request $request) {
-        $test = new stdClass();
-        $test->halil = "hates you";
-
-        return rest_ensure_response($test);
+    public function junglehunter_get_all(\WP_REST_Request $request) {
+        return rest_ensure_response(JungleHunter_Database::junglehunter_get_all());
     }
 }
 
