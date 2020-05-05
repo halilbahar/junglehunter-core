@@ -87,10 +87,13 @@ function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trai
 
 $id = $name = $comment = $note = $trail_id = $latitude = $longitude = $response = '';
 $trails = JungleHunter_Database::junglehunter_get_trails();
-
+// Handle form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
+        // Create control points
+        // Get errors
         $errors = validateBody($name, $comment, $note, $latitude, $longitude, $trail_id, $trails);
+        // Check if everything is valid if yes insert, set a response
         if (empty($errors)) {
             JungleHunter_Database::junglehunter_insert_control_point(
                 $name,
@@ -104,12 +107,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             $name = $comment = $note = $latitude = $longitude = $trail_id = '';
         }
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['id'])) {
+        // Delete control point
+        // Try to delete and output based on the changed rows
         $response = JungleHunter_Database::junglehunter_delete_control_point(
             $_POST['id']
         ) ? 'The Control Point was deleted!' : 'This Control Point does not exist!';
     } else if ($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
+        // Update control point
+        // Get errors
         $errors = validateBody($name, $comment, $note, $latitude, $longitude, $trail_id, $trails);
         $id = $_POST['id'];
+        // Check if everything is valid if yes update, set a response based on the updated rows
         if (empty($errors)) {
             $response = JungleHunter_Database::junglehunter_update_control_point(
                 $id,
