@@ -34,7 +34,7 @@ class JungleHunter_Database {
             latitude DOUBLE NOT NULL,
             longitude DOUBLE NOT NULL,
             trail_id INT(11) NOT NULL,
-            UNIQUE(control_point_name),
+            UNIQUE INDEX unique_name_trail_id (control_point_name, trail_id),
             CONSTRAINT PK_jh_control_point PRIMARY KEY (control_point_id),
             CONSTRAINT FK_jh_trail_jh_control_point FOREIGN KEY (trail_id)
                 REFERENCES {$prefix}jh_trail (trail_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -151,11 +151,23 @@ class JungleHunter_Database {
         $prefix = $wpdb->prefix;
         $control_point = "${prefix}jh_control_point";
         $trail = "${prefix}jh_trail";
-        $sql_trails_select = "SELECT ${control_point}.control_point_id, ${control_point}.control_point_name,
+        $sql_control_points_select = "SELECT ${control_point}.control_point_id, ${control_point}.control_point_name,
             ${control_point}.comment, ${control_point}.note, ${control_point}.latitude, ${control_point}.longitude,
             ${control_point}.trail_id, ${trail}.trail_name FROM ${control_point}
             INNER JOIN ${trail} ON ${trail}.trail_id = ${control_point}.trail_id";
-        return $wpdb->get_results($sql_trails_select);
+        return $wpdb->get_results($sql_control_points_select);
+    }
+
+    public static function junglehunter_get_control_point_by_name($name) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $control_point = "${prefix}jh_control_point";
+        $trail = "${prefix}jh_trail";
+        $sql_control_point_select = "SELECT ${control_point}.control_point_id, ${control_point}.control_point_name,
+            ${control_point}.comment, ${control_point}.note, ${control_point}.latitude, ${control_point}.longitude,
+            ${control_point}.trail_id, ${trail}.trail_name FROM ${control_point}
+            INNER JOIN ${trail} ON ${trail}.trail_id = ${control_point}.trail_id WHERE ${control_point}.control_point_name = %s";
+        return $wpdb->get_row($wpdb->prepare($sql_control_point_select, $name));
     }
 
     public static function junglehunter_insert_control_point($name, $comment, $note, $latitude, $longitude, $trail_id) {

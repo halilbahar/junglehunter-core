@@ -4,17 +4,28 @@ $id = $name = $comment = $note = $latitude = $longitude = $trail_id = $response 
 function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trail_id, $trails) {
     $errors = array();
 
+    // Validate route if it is: empty, exists
+    if (!isset($_POST['trail_id'])) {
+        $errors['trail_id'] = 'The trail of the Control Points needs to be set!';
+    }
+
     // Validate name if it is: empty, too long, already existing
     if (!isset($_POST['name']) || (strlen(trim($_POST['name'])) == 0)) {
         $errors['name'] = 'The name of the Control Point cannot be empty!';
     } else if (strlen(trim($_POST['name'])) > 50) {
         $errors['name'] = 'The name of the Control Point is too long!';
     } else {
-        // TODO:
-//        $row = JungleHunter_Database::junglehunter_get_trail_by_name(trim($_POST['name']));
-//        if ($row != NULL && isset($_POST['id']) && $row->trail_id != $_POST['id']) {
-//            $errors['name'] = 'This name already exists!';
-//        }
+        $row = JungleHunter_Database::junglehunter_get_control_point_by_name(trim($_POST['name']));
+        //  && isset($_POST['id']) && $row->control_point_id != $_POST['id']
+        if ($row != NULL) {
+            if (!isset($_POST['trail_id'])) {
+                $errors['name'] = 'Please select a trail to see if the name is available!';
+            } else {
+                if ($row->trail_id == $_POST['trail_id'] && isset($_POST['id']) && $_POST['id'] != $row->control_point_id) {
+                    $errors['name'] = 'This name already exists!';
+                }
+            }
+        }
     }
 
     // Validate comment if it is: empty, too long
@@ -45,11 +56,9 @@ function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trai
         $errors['longitude'] = 'The longitude of the Control Point needs to be a number!';
     }
 
-    // Validate route if it is: empty, exists
-    if (!isset($_POST['trail_id'])) {
-        $errors['trail_id'] = 'The trail of the Control Points needs to be set!';
+    if (isset($_POST['trail_id'])) {
+        $trail_id = trim($_POST['trail_id']);
     }
-
     if (isset($_POST['name'])) {
         $name = trim($_POST['name']);
     }
@@ -64,9 +73,6 @@ function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trai
     }
     if (isset($_POST['longitude'])) {
         $longitude = trim($_POST['longitude']);
-    }
-    if (isset($_POST['trail_id'])) {
-        $trail_id = trim($_POST['trail_id']);
     }
 
     return $errors;
