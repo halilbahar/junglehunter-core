@@ -102,7 +102,7 @@ class JungleHunter_Database {
         $route = "${prefix}jh_route";
         $sql_trails_select = "SELECT ${trail}.trail_id, ${trail}.trail_name, ${trail}.length,
             ${trail}.route_id, ${route}.route_name FROM ${trail}
-            LEFT JOIN ${route} ON ${route}.route_id = ${trail}.route_id";
+            INNER JOIN ${route} ON ${route}.route_id = ${trail}.route_id";
         return $wpdb->get_results($sql_trails_select);
     }
 
@@ -144,5 +144,56 @@ class JungleHunter_Database {
         );
 
         return $wpdb->update("${prefix}jh_trail", $data, array('trail_id' => $id));
+    }
+
+    public static function junglehunter_get_control_points() {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $control_point = "${prefix}jh_control_point";
+        $trail = "${prefix}jh_trail";
+        $sql_trails_select = "SELECT ${control_point}.control_point_id, ${control_point}.control_point_name,
+            ${control_point}.comment, ${control_point}.note, ${control_point}.latitude, ${control_point}.longitude,
+            ${control_point}.trail_id, ${trail}.trail_name FROM ${control_point}
+            INNER JOIN ${trail} ON ${trail}.trail_id = ${control_point}.trail_id";
+        return $wpdb->get_results($sql_trails_select);
+    }
+
+    public static function junglehunter_insert_control_point($name, $comment, $note, $latitude, $longitude, $trail_id) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        $data = array(
+            'control_point_name' => $name,
+            'comment' => $comment,
+            'note' => $note,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'trail_id' => $trail_id
+        );
+
+        $wpdb->insert("${prefix}jh_control_point", $data);
+    }
+
+    public static function junglehunter_delete_control_point($id) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        return $wpdb->delete("${prefix}jh_control_point", array('control_point_id' => $id)) == 1;
+    }
+
+    public static function junglehunter_update_control_point($id, $name, $comment, $note, $latitude, $longitude, $trail_id) {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+
+        $data = array(
+            'control_point_name' => $name,
+            'comment' => $comment,
+            'note' => $note,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'trail_id' => $trail_id
+        );
+
+        return $wpdb->update("${prefix}jh_control_point", $data, array('control_point_id' => $id));
     }
 }
