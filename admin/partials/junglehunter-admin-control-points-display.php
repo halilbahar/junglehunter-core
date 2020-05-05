@@ -16,14 +16,11 @@ function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trai
         $errors['name'] = 'The name of the Control Point is too long!';
     } else {
         $row = JungleHunter_Database::junglehunter_get_control_point_by_name(trim($_POST['name']));
-        //  && isset($_POST['id']) && $row->control_point_id != $_POST['id']
         if ($row != NULL) {
             if (!isset($_POST['trail_id'])) {
                 $errors['name'] = 'Please select a trail to see if the name is available!';
-            } else {
-                if ($row->trail_id == $_POST['trail_id'] && isset($_POST['id']) && $_POST['id'] != $row->control_point_id) {
-                    $errors['name'] = 'This name already exists!';
-                }
+            } else if ($row->trail_id == $_POST['trail_id'] && isset($_POST['id']) && $_POST['id'] != $row->control_point_id) {
+                $errors['name'] = 'This name already exists!';
             }
         }
     }
