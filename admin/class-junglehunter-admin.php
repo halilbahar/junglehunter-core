@@ -33,7 +33,8 @@ class Junglehunter_Admin {
      * Register junglehutner menu page to wordpress
      */
     public function junglehunter_add_menus() {
-        add_menu_page('Junglehunter', 'Junglehunter', 'manage_options', 'junglehunter-routes');
+        $svg_content = file_get_contents(plugin_dir_path(dirname(__FILE__)) . 'admin/images/junglehunter.svg');
+        add_menu_page('Junglehunter', 'Junglehunter', 'manage_options', 'junglehunter-routes', null, 'data:image/svg+xml;base64,' . base64_encode($svg_content));
 
         add_submenu_page('junglehunter-routes', 'Junglehunter Routes', 'Routes', 'manage_options', 'junglehunter-routes', array(
             $this,
