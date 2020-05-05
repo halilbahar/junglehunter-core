@@ -23,7 +23,13 @@ function validateBody(&$name, &$start, &$url, &$description) {
 
     // Validate url if it is: empty, valid url, too long
     $regex = '/^(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}\S*$/';
-    if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match($regex, $_POST['url'], $matches, PREG_OFFSET_CAPTURE, 0) == 0)) {
+    if (!isset($_POST['url']) || (isset($_POST['url']) && preg_match(
+                $regex,
+                $_POST['url'],
+                $matches,
+                PREG_OFFSET_CAPTURE,
+                0
+            ) == 0)) {
         $errors['url'] = 'The url of the route is invalid!';
     } else if (strlen($_POST['url']) == 0 || strlen($_POST['url']) > 255) {
         $errors['url'] = 'The url is too long!';
@@ -68,7 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['id'])) {
         // Delete route
         // Try to delete and output based on the changed rows
-        $response = JungleHunter_Database::junglehunter_delete_route($_POST['id']) ? 'The route was deleted!' : 'This route does not exist!';
+        $response = JungleHunter_Database::junglehunter_delete_route(
+            $_POST['id']
+        ) ? 'The route was deleted!' : 'This route does not exist!';
     } else if ($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
         // Update route
         // Get errors
