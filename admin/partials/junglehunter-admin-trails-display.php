@@ -44,22 +44,41 @@ function validateBody(&$name, &$length, &$route_id, $routes) {
 
 $id = $name = $length = $route_id = $response = '';
 $routes = JungleHunter_Database::junglehunter_get_routes();
-
+// Handle form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
+        // Create trail
+        // Get errors
         $errors = validateBody($name, $length, $route_id, $routes);
+        // Check if everything is valid if yes insert, set a response
         if (empty($errors)) {
-            JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route_id);
+            JungleHunter_Database::junglehunter_insert_trail(
+                $name,
+                floatval(str_replace(',', '.', $length)),
+                $route_id
+            );
             $response = 'A new Trail was created!';
             $name = $length = $route_id = '';
         }
     } else if ($_POST['_method'] == 'DELETE' && isset($_POST['id'])) {
-        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['id']) ? 'The Trail was deleted!' : 'This Trail does not exist!';
-    } else if($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
+        // Delete trail
+        // Try to delete and output based on the changed rows
+        $response = JungleHunter_Database::junglehunter_delete_trail(
+            $_POST['id']
+        ) ? 'The Trail was deleted!' : 'This Trail does not exist!';
+    } else if ($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
+        // Update trail
+        // Get errors
         $errors = validateBody($name, $length, $route_id, $routes);
         $id = $_POST['id'];
+        // Check if everything is valid if yes update, set a response based on the updated rows
         if (empty($errors)) {
-            $is_updated = JungleHunter_Database::junglehunter_update_trail($id, $name, floatval(str_replace(',', '.', $length)), $route_id);
+            $is_updated = JungleHunter_Database::junglehunter_update_trail(
+                $id,
+                $name,
+                floatval(str_replace(',', '.', $length)),
+                $route_id
+            );
             $response = $is_updated ? 'The Trail was updated!' : 'Nothing was changed!';
             $id = $name = $length = $route_id = '';
         }
