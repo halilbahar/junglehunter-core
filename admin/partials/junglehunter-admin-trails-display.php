@@ -1,5 +1,5 @@
 <?php
-function validateBody(&$name, &$length, &$route, $routes) {
+function validateBody(&$name, &$length, &$route_id, $routes) {
     $errors = array();
 
     // Validate name if it is: empty, too long, already existing
@@ -9,7 +9,7 @@ function validateBody(&$name, &$length, &$route, $routes) {
         $errors['name'] = 'The name of the trail is too long!';
     } else {
         $row = JungleHunter_Database::junglehunter_get_trail_by_name(trim($_POST['name']));
-        if ($row != NULL && isset($_POST['original_name']) && $row->trail_name != $_POST['original_name']) {
+        if ($row != NULL && isset($_POST['id']) && $row->trail_id != $_POST['id']) {
             $errors['name'] = 'This name already exists!';
         }
     }
@@ -23,9 +23,9 @@ function validateBody(&$name, &$length, &$route, $routes) {
     }
 
     // Validate route if it is: empty, exists
-    if (!isset($_POST['route'])) {
+    if (!isset($_POST['route_id'])) {
         $errors['route'] = 'The route of the trail needs to be set!';
-    } else if (in_array($route, $routes, true)) {
+    } else if (in_array($route_id, $routes, true)) {
         $errors['route'] = 'This route does not exist!';
     }
 
@@ -35,33 +35,33 @@ function validateBody(&$name, &$length, &$route, $routes) {
     if (isset($_POST['length'])) {
         $length = trim($_POST['length']);
     }
-    if (isset($_POST['route'])) {
-        $route = trim($_POST['route']);
+    if (isset($_POST['route_id'])) {
+        $route_id = trim($_POST['route_id']);
     }
 
     return $errors;
 }
 
-$name = $original_name = $length = $route = $response = '';
+$id = $name = $length = $route_id = $response = '';
 $routes = JungleHunter_Database::junglehunter_get_routes();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
-        $errors = validateBody($name, $length, $route, $routes);
+        $errors = validateBody($name, $length, $route_id, $routes);
         if (empty($errors)) {
-            JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route);
+            JungleHunter_Database::junglehunter_insert_trail($name, floatval(str_replace(',', '.', $length)), $route_id);
             $response = 'A new Trail was created!';
-            $name = $length = $route = '';
+            $name = $length = $route_id = '';
         }
-    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
-        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['original_name']) ? 'The Trail was deleted!' : 'This Trail does not exist!';
-    } else if($_POST['_method'] == 'PUT' && isset($_POST['original_name'])) {
-        $errors = validateBody($name, $length, $route, $routes);
-        $original_name = $_POST['original_name'];
+    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['id'])) {
+        $response = JungleHunter_Database::junglehunter_delete_trail($_POST['id']) ? 'The Trail was deleted!' : 'This Trail does not exist!';
+    } else if($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
+        $errors = validateBody($name, $length, $route_id, $routes);
+        $id = $_POST['id'];
         if (empty($errors)) {
-            $is_updated = JungleHunter_Database::junglehunter_update_trail($original_name, $name, floatval(str_replace(',', '.', $length)), $route);
+            $is_updated = JungleHunter_Database::junglehunter_update_trail($id, $name, floatval(str_replace(',', '.', $length)), $route_id);
             $response = $is_updated ? 'The Trail was updated!' : 'Nothing was changed!';
-            $name = $original_name = $length = $route = '';
+            $id = $name = $length = $route_id = '';
         }
     }
 }
@@ -96,18 +96,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-trail-route">Route:</label>
-                <select name="route" id="junglehunter-trail-route"
+                <select name="route_id" id="junglehunter-trail-route"
                         class="<?php if (isset($errors['route']))
                             echo 'junglehunter-red-border' ?>">
                     <?php
                     $hasSelected = false;
                     foreach ($routes as $single_route) {
                         $is_selected = '';
-                        if ($single_route->route_name == $route) {
+                        if ($single_route->route_id == $route_id) {
                             $is_selected = 'selected';
                             $hasSelected = true;
                         }
-                        echo "<option $is_selected value='$single_route->route_name'>$single_route->route_name</option>";
+                        echo "<option $is_selected value='$single_route->route_id'>$single_route->route_name</option>";
                     }
                     ?>
                     <option value="" <?php echo($hasSelected ? '' : 'selected') ?> disabled hidden>
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                         echo $errors['route'] ?></span>
             </div>
             <div class="junglehunter-buttons">
-                <?php $is_creating = $original_name == '' ?>
+                <?php $is_creating = $id == '' ?>
                 <input type="button" value="Cancel" id="junglehunter-cancel" class="junglehunter-button">
                 <input type="submit" value="Delete" id="junglehunter-delete" <?php if ($is_creating)
                     echo 'disabled' ?> class="junglehunter-button">
@@ -127,8 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <input type="submit" value="Create" id="junglehunter-create" <?php if (!$is_creating)
                     echo 'disabled' ?> class="junglehunter-button">
             </div>
-            <input type="hidden" id="junglehunter-original-unique-field" name="original_name"
-                   class="junglehunter-button" value="<?php echo $original_name ?>">
+            <input type="hidden" id="junglehunter-id" name="id"
+                   class="junglehunter-button" value="<?php echo $id ?>">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method">
         </form>
     </div>
@@ -146,9 +146,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         $trails = JungleHunter_Database::junglehunter_get_trails();
         foreach ($trails as $trail) {
             echo '<tr class="junglehunter-trail-tr">';
-            echo "<td>$trail->trail_name</td>";
+            echo "<td data-id='$trail->trail_id'>$trail->trail_name</td>";
             echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
-            echo "<td>$trail->route_name</td>";
+            echo "<td data-id='$trail->route_id'>$trail->route_name</td>";
             echo '<tr/>';
         }
         ?>

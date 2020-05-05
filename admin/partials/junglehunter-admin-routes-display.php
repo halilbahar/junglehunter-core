@@ -9,7 +9,7 @@ function validateBody(&$name, &$start, &$url, &$description) {
         $errors['name'] = 'The name of the route is too long!';
     } else {
         $row = JungleHunter_Database::junglehunter_get_route_by_name(trim($_POST['name']));
-        if ($row != NULL && isset($_POST['original_name']) && $row->route_name != $_POST['original_name']) {
+        if ($row != NULL && isset($_POST['id']) && $row->route_id != $_POST['id']) {
             $errors['name'] = 'This name already exists!';
         }
     }
@@ -52,7 +52,7 @@ function validateBody(&$name, &$start, &$url, &$description) {
     return $errors;
 }
 
-$name = $original_name = $start = $url = $description = $response = '';
+$id = $name = $start = $url = $description = $response = '';
 // Handle form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
     if ($_POST['_method'] == 'POST') {
@@ -65,20 +65,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             $response = 'A new Route was created!';
             $name = $start = $url = $description = '';
         }
-    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['original_name'])) {
+    } else if ($_POST['_method'] == 'DELETE' && isset($_POST['id'])) {
         // Delete route
         // Try to delete and output based on the changed rows
-        $response = JungleHunter_Database::junglehunter_delete_route($_POST['original_name']) ? 'The route was deleted!' : 'This route does not exist!';
-    } else if ($_POST['_method'] == 'PUT' && isset($_POST['original_name'])) {
+        $response = JungleHunter_Database::junglehunter_delete_route($_POST['id']) ? 'The route was deleted!' : 'This route does not exist!';
+    } else if ($_POST['_method'] == 'PUT' && isset($_POST['id'])) {
         // Update route
         // Get errors
         $errors = validateBody($name, $start, $url, $description);
-        $original_name = $_POST['original_name'];
+        $id = $_POST['id'];
         // Check if everything is valid if yes update, set a response based on the updated rows
         if (empty($errors)) {
-            $is_updated = JungleHunter_Database::junglehunter_update_route($original_name, $name, $start, $url, $description);
+            $is_updated = JungleHunter_Database::junglehunter_update_route($id, $name, $start, $url, $description);
             $response = $is_updated ? 'The Route was updated!' : 'Nothing was changed!';
-            $name = $original_name = $start = $url = $description = '';
+            $name = $id = $start = $url = $description = '';
         }
     }
 }
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                         echo $errors['description'] ?></span>
             </div>
             <div class="junglehunter-buttons">
-                <?php $is_creating = $original_name == '' ?>
+                <?php $is_creating = $id == '' ?>
                 <input type="button" value="Cancel" id="junglehunter-cancel" class="junglehunter-button">
                 <input type="submit" value="Delete" id="junglehunter-delete" <?php if ($is_creating)
                     echo 'disabled' ?> class="junglehunter-button">
@@ -136,8 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <input type="submit" value="Create" id="junglehunter-create" <?php if (!$is_creating)
                     echo 'disabled' ?> class="junglehunter-button">
             </div>
-            <input type="hidden" id="junglehunter-original-unique-field" name="original_name"
-                   class="junglehunter-button" value="<?php echo $original_name ?>">
+            <input type="hidden" id="junglehunter-id" name="id"
+                   class="junglehunter-button" value="<?php echo $id ?>">
             <input type="hidden" value="POST" id="junglehunter-method" name="_method" class="junglehunter-button">
         </form>
     </div>
@@ -155,9 +155,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $routes = JungleHunter_Database::junglehunter_get_routes();
         foreach ($routes as $route) {
-            $selected_class = $route->route_name == $original_name ? 'junglehunter-selected-table' : '';
+            $selected_class = $route->route_name == $id ? 'junglehunter-selected-table' : '';
             echo "<tr class='junglehunter-route-tr $selected_class'>";
-            echo "<td>$route->route_name</td>";
+            echo "<td data-id='$route->route_id'>$route->route_name</td>";
             echo "<td>$route->start</td>";
             echo "<td>$route->url</td>";
             echo "<td>$route->description</td>";

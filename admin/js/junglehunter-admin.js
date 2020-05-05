@@ -19,6 +19,7 @@
         var createButton = $('#junglehunter-create');
         var saveButton = $('#junglehunter-save');
         var deleteButton = $('#junglehunter-delete');
+        var idField = $('#junglehunter-id');
 
         saveButton.click(function () {
             $('#junglehunter-method').val('PUT');
@@ -55,10 +56,11 @@
             // Toggle the buttons - delete and save state
             clickCommon(tds[0]);
             // Load from table
-            $('#junglehunter-route-name').val(tds[0]);
-            $('#junglehunter-route-start').val(tds[1]);
-            $('#junglehunter-route-url').val(tds[2]);
-            $('#junglehunter-route-description').val(tds[3]);
+            $('#junglehunter-route-name').val(tds[0].html());
+            $('#junglehunter-route-start').val(tds[1].html());
+            $('#junglehunter-route-url').val(tds[2].html());
+            $('#junglehunter-route-description').val(tds[3].html());
+            idField.val($(tds[0]).attr('data-id'));
         });
 
         /////////////////////
@@ -70,9 +72,10 @@
             // Toggle the buttons - delete and save state
             clickCommon(tds[0]);
             // Load from table
-            $('#junglehunter-trail-name').val(tds[0]);
-            $('#junglehunter-trail-length').val(tds[1]);
-            $('#junglehunter-trail-route').val(tds[2]);
+            $('#junglehunter-trail-name').val(tds[0].html());
+            $('#junglehunter-trail-length').val(tds[1].html());
+            $('#junglehunter-trail-route').val(tds[2].attr('data-id'));
+            idField.val($(tds[0]).attr('data-id'));
         });
 
         ////////////////////
@@ -82,7 +85,7 @@
         function getTd(elements) {
             var tdData = [];
             $(elements).each(function () {
-                tdData.push($(this).html());
+                tdData.push($(this));
             });
             return tdData;
         }
