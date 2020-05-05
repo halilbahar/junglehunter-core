@@ -106,9 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <label for="junglehunter-trail-length">Length:</label>
                 <input type="text" id="junglehunter-trail-length" name="length"
                        placeholder="The length of the trail in kilometer"
-                       oninput="this.value = this.value.replace(/[^0-9,]/g, '').replace(/(,.*),/g, '$1');"
                        value="<?php echo $length ?>"
-                       class="<?php if (isset($errors['length']))
+                       class="junglehunter-number-input <?php if (isset($errors['length']))
                            echo 'junglehunter-red-border' ?>">
                 <span class="junglehunter-error-message"><?php if (isset($errors['length']))
                         echo $errors['length'] ?></span>
@@ -134,7 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                     </option>
                 </select>
                 <span class="junglehunter-error-message"><?php if (isset($errors['route']))
-                        echo $errors['route'] ?></span>
+                        echo $errors['route'] ?>
+                </span>
             </div>
             <div class="junglehunter-buttons">
                 <?php $is_creating = $id == '' ?>
