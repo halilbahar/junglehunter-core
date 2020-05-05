@@ -24,8 +24,16 @@ function validateBody(&$name, &$length, &$route_id, $routes) {
     // Validate route if it is: empty, exists
     if (!isset($_POST['route_id'])) {
         $errors['route'] = 'The route of the trail needs to be set!';
-    } else if (in_array($route_id, $routes, true)) {
-        $errors['route'] = 'This route does not exist!';
+    } else {
+        $contains_route_id = false;
+        foreach ($routes as $route) {
+            if ($_POST['route_id'] == $route->route_id) {
+                $contains_route_id = true;
+            }
+        }
+        if (!$contains_route_id) {
+            $errors['route'] = 'This route does not exist!';
+        }
     }
 
     if (isset($_POST['name'])) {
