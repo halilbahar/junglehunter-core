@@ -174,13 +174,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-control-point-comment">Comment:</label>
-                <input id="junglehunter-control-point-comment"
-                       placeholder="The comment of the Control Point"
-                       type="text"
-                       name="comment"
-                       value="<?php echo $comment ?>"
-                       class="<?php if (isset($errors['comment']))
-                           echo 'junglehunter-red-border' ?>">
+                <textarea id="junglehunter-control-point-comment"
+                          placeholder="The comment of the Control Point"
+                          name="comment"
+                          rows="3"
+                          class="<?php if (isset($errors['comment']))
+                              echo 'junglehunter-red-border' ?>"><?php echo $comment ?></textarea>
                 <span class="junglehunter-error-message">
                     <?php if (isset($errors['comment']))
                         echo $errors['comment'] ?>
@@ -188,13 +187,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
             </div>
             <div class="junglehunter-input-row">
                 <label for="junglehunter-control-point-note">Note:</label>
-                <input id="junglehunter-control-point-note"
-                       placeholder="The note of the Control Point"
-                       type="text"
-                       name="note"
-                       value="<?php echo $note ?>"
-                       class="<?php if (isset($errors['note']))
-                           echo 'junglehunter-red-border' ?>">
+                <textarea id="junglehunter-control-point-note"
+                          placeholder="The note of the Control Point"
+                          name="note"
+                          rows="3"
+                          class="<?php if (isset($errors['note']))
+                              echo 'junglehunter-red-border' ?>"><?php echo $note ?></textarea>
                 <span class="junglehunter-error-message">
                     <?php if (isset($errors['note']))
                         echo $errors['note'] ?>
