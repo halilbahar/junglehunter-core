@@ -213,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                        type="text"
                        name="latitude"
                        value="<?php echo $latitude ?>"
-                       class="<?php if (isset($errors['latitude']))
+                       class="junglehunter-number-input <?php if (isset($errors['latitude']))
                            echo 'junglehunter-red-border' ?>">
                 <span class="junglehunter-error-message">
                     <?php if (isset($errors['latitude']))
@@ -227,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                        type="text"
                        name="longitude"
                        value="<?php echo $longitude ?>"
-                       class="<?php if (isset($errors['longitude']))
+                       class="junglehunter-number-input <?php if (isset($errors['longitude']))
                            echo 'junglehunter-red-border' ?>">
                 <span class="junglehunter-error-message">
                     <?php if (isset($errors['longitude']))
