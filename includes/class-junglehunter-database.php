@@ -1,5 +1,9 @@
 <?php
 
+require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-model-route.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-model-trail.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-model-control-point.php');
+
 class JungleHunter_Database {
 
     public static function junglehunter_create_tables() {
@@ -207,5 +211,58 @@ class JungleHunter_Database {
         );
 
         return $wpdb->update("${prefix}jh_control_point", $data, array('control_point_id' => $id));
+    }
+
+    /**
+     * @return Junglehunter_Route[]
+     */
+    public static function junglehunter_get_all() {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $route = "${prefix}jh_route";
+        $trail = "${prefix}jh_trail";
+        $control_point = "${prefix}jh_control_point";
+        $sql_everything_selection = "SELECT r.route_id, r.route_name, r.start, r.url, r.description,
+            t.trail_id, t.trail_name, t.length, cp.control_point_id,
+            cp.control_point_name, cp.comment, cp.note, cp.latitude, cp.longitude FROM ${route} r
+            LEFT JOIN {$trail} t ON r.route_id = t.route_id
+            LEFT JOIN ${control_point} cp ON t.trail_id = cp.trail_id";
+
+        $result_set = $wpdb->get_results($sql_everything_selection);
+        $return_result = array();
+        $last_route = null;
+        $last_trail = null;
+        foreach ($result_set as $row) {
+            // Check if a route is set your the new id isn't the same as the current route => new route
+            if ($last_route == null || $last_route->id != $row->route_id) {
+                // Create new route
+                $last_route = new Junglehunter_Route(
+                    $row->route_id, $row->route_name, $row->start, $row->url, $row->description
+                );
+                // Add it to the end result
+                $return_result[] = $last_route;
+            }
+            // If the trail_id is not set the route has no trails => skip the control point
+            if (!isset($row->trail_id)) {
+                continue;
+            } else if ($last_trail == null || $last_trail->id != $row->trail_id) {
+                // Create new trail
+                $last_trail = new Junglehunter_Trail($row->trail_id, $row->trail_name, $row->length);
+                // Add it to the current route
+                $last_route->trails[] = $last_trail;
+            }
+            // If the current row has a control point add it to the trails
+            if (isset($row->control_point_id)) {
+                $last_trail->control_points[] = new Junglehunter_Control_Point(
+                    $row->control_point_id,
+                    $row->control_point_name,
+                    $row->comment,
+                    $row->note,
+                    $row->latitude,
+                    $row->longitude
+                );
+            }
+        }
+        return $return_result;
     }
 }
