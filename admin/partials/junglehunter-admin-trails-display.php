@@ -18,7 +18,6 @@ function validateBody(&$name, &$length, &$route_id, $routes) {
     if (!isset($_POST['length']) || (strlen(trim($_POST['length'])) == 0)) {
         $errors['length'] = 'The length of the trail cannot be empty!';
     } else if (!is_numeric(str_replace(',', '.', $_POST['length']))) {
-        var_dump($_POST);
         $errors['length'] = 'The length of the trail needs to be a number!';
     }
 
