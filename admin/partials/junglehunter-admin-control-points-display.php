@@ -257,8 +257,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $control_points = JungleHunter_Database::junglehunter_get_control_points();
         foreach ($control_points as $control_point) {
-            $selected_class = $control_point->control_point_id == $id ? 'junglehunter-selected-table' : '';
-            echo "<tr class='junglehunter-control-point-tr $selected_class'>";
+            $selected_class = $control_point->control_point_id == $id ? ' junglehunter-selected-table' : '';
+            echo "<tr class='junglehunter-control-point-tr$selected_class'>";
             echo "<td data-id='$control_point->control_point_id'>$control_point->control_point_name</td>";
             echo "<td>$control_point->comment</td>";
             echo "<td>$control_point->note</td>";

@@ -145,7 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $trails = JungleHunter_Database::junglehunter_get_trails();
         foreach ($trails as $trail) {
-            echo '<tr class="junglehunter-trail-tr">';
+            $selected_class = $trail->trail_id == $id ? ' junglehunter-selected-table' : '';
+            echo "<tr class='junglehunter-trail-tr$selected_class'>";
             echo "<td data-id='$trail->trail_id'>$trail->trail_name</td>";
             echo '<td>' . str_replace('.', ',', $trail->length) . '</td>';
             echo "<td data-id='$trail->route_id'>$trail->route_name</td>";

@@ -155,8 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <?php
         $routes = JungleHunter_Database::junglehunter_get_routes();
         foreach ($routes as $route) {
-            $selected_class = $route->route_name == $id ? 'junglehunter-selected-table' : '';
-            echo "<tr class='junglehunter-route-tr $selected_class'>";
+            $selected_class = $route->route_id == $id ? ' junglehunter-selected-table' : '';
+            echo "<tr class='junglehunter-route-tr$selected_class'>";
             echo "<td data-id='$route->route_id'>$route->route_name</td>";
             echo "<td>$route->start</td>";
             echo "<td>$route->url</td>";
