@@ -78,6 +78,24 @@
             idField.val($(tds[0]).attr('data-id'));
         });
 
+        /////////////////////////////
+        // Control Point functions //
+        /////////////////////////////
+
+        $('.junglehunter-control-point-tr').click(function () {
+            var tds = getTd($(this).children('td'));
+            // Toggle the buttons - delete and save state
+            clickCommon(tds[0]);
+            // Load from table
+            $('#junglehunter-control-point-name').val(tds[0].html());
+            $('#junglehunter-control-point-comment').val(tds[1].html());
+            $('#junglehunter-control-point-note').val(tds[2].html());
+            $('#junglehunter-control-point-latitude').val(tds[3].html());
+            $('#junglehunter-control-point-longitude').val(tds[4].html());
+            $('#junglehunter-control-point-trail').val(tds[5].attr('data-id'));
+            idField.val($(tds[0]).attr('data-id'));
+        });
+
         ////////////////////
         // Help functions //
         ////////////////////
