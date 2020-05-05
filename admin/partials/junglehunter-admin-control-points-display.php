@@ -123,6 +123,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
         <h1>Create new Route:</h1>
         <form action="<?php menu_page_url("junglehunter-control-points") ?>" method="post" id="junglehunter-form">
             <div class="junglehunter-input-row">
+                <label for="junglehunter-control-point-trail">Trail:</label>
+                <select name="trail_id" id="junglehunter-control-point-trail"
+                        class="<?php if (isset($errors['trail_id']))
+                            echo 'junglehunter-red-border' ?>">
+                    <?php
+                    $has_selected = false;
+                    var_dump($trail_id);
+                    var_dump($trails);
+                    foreach ($trails as $single_trail) {
+                        $is_selected = '';
+                        if ($single_trail->trail_id == $trail_id) {
+                            $is_selected = 'selected';
+                            $has_selected = true;
+                        }
+                        echo "<option $is_selected value='$single_trail->trail_id'>$single_trail->route_name - $single_trail->trail_name</option>";
+                    }
+                    ?>
+                    <option value="" <?php echo($has_selected ? '' : 'selected') ?> disabled hidden>
+                        The Trail that the Control Point belongs to
+                    </option>
+                </select>
+                <span class="junglehunter-error-message"><?php if (isset($errors['trail_id']))
+                        echo $errors['trail_id'] ?>
+                </span>
+            </div>
+            <div class="junglehunter-input-row">
                 <label for="junglehunter-control-point-name">Name:</label>
                 <input id="junglehunter-control-point-name"
                        placeholder="A name for the Control Point"
@@ -190,32 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['_method'])) {
                 <span class="junglehunter-error-message">
                     <?php if (isset($errors['longitude']))
                         echo $errors['longitude'] ?>
-                </span>
-            </div>
-            <div class="junglehunter-input-row">
-                <label for="junglehunter-control-point-trail">Trail:</label>
-                <select name="trail_id" id="junglehunter-control-point-trail"
-                        class="<?php if (isset($errors['trail_id']))
-                            echo 'junglehunter-red-border' ?>">
-                    <?php
-                    $has_selected = false;
-                    var_dump($trail_id);
-                    var_dump($trails);
-                    foreach ($trails as $single_trail) {
-                        $is_selected = '';
-                        if ($single_trail->trail_id == $trail_id) {
-                            $is_selected = 'selected';
-                            $has_selected = true;
-                        }
-                        echo "<option $is_selected value='$single_trail->trail_id'>$single_trail->route_name - $single_trail->trail_name</option>";
-                    }
-                    ?>
-                    <option value="" <?php echo($has_selected ? '' : 'selected') ?> disabled hidden>
-                        The Trail that the Control Point belongs to
-                    </option>
-                </select>
-                <span class="junglehunter-error-message"><?php if (isset($errors['trail_id']))
-                        echo $errors['trail_id'] ?>
                 </span>
             </div>
             <div class="junglehunter-buttons">
