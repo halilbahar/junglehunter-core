@@ -7,6 +7,16 @@ function validateBody(&$name, &$comment, &$note, &$latitude, &$longitude, &$trai
     // Validate route if it is: empty, exists
     if (!isset($_POST['trail_id'])) {
         $errors['trail_id'] = 'The trail of the Control Points needs to be set!';
+    } else {
+        $contains_trail_id = false;
+        foreach ($trails as $trail) {
+            if ($_POST['trail_id'] == $trail->trail_id) {
+                $contains_trail_id = true;
+            }
+        }
+        if (!$contains_trail_id) {
+            $errors['trail_id'] = 'This trail does not exist!';
+        }
     }
 
     // Validate name if it is: empty, too long, already existing
