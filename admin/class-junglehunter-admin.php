@@ -3,8 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
+ * Defines the plugin name, version, and all three form sites
  */
 class Junglehunter_Admin {
 
@@ -30,7 +29,7 @@ class Junglehunter_Admin {
     }
 
     /**
-     * Register junglehutner menu page to wordpress
+     * Register junglehunter menu page to wordpress
      */
     public function junglehunter_add_menus() {
         $svg_content = file_get_contents(plugin_dir_path(dirname(__FILE__)) . 'admin/images/junglehunter.svg');
@@ -57,7 +56,7 @@ class Junglehunter_Admin {
     }
 
     public function junglehunter_enqueue_scripts() {
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/junglehunter-admin.js', array('jquery'), $this->version, false);
+        wp_enqueue_script($this->plugin_name . '_script', plugin_dir_url(__FILE__) . 'js/junglehunter-admin.js', array('jquery'), $this->version, false);
     }
 
     public function junglehunter_routes_page_html() {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * The model for the Route
+ *
+ * @package    junglehunter
+ * @subpackage junglehunter/model
+ * @author     Halil Bahar
+ */
 class Junglehunter_Route {
 
     /**

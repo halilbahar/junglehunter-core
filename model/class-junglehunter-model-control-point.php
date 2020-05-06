@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * The model for the Control Point
+ *
+ * @package    junglehunter
+ * @subpackage junglehunter/model
+ * @author     Halil Bahar
+ */
 class Junglehunter_Control_Point {
 
     /**

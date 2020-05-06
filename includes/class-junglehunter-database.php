@@ -4,8 +4,14 @@ require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-mode
 require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-model-trail.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'model/class-junglehunter-model-control-point.php');
 
+/**
+ * The database utility class. Interact with the database via this class and its static functions.
+ */
 class JungleHunter_Database {
 
+    /**
+     * Creates all the necessary tables for the plugin.
+     */
     public static function junglehunter_create_tables() {
         global $wpdb;
         $prefix = $wpdb->prefix;

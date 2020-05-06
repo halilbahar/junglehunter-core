@@ -3,30 +3,21 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * Defines the plugin name, version, and examples to create your REST access
- * methods. Don't forget to validate and sanatize incoming data!
- *
  * @package    junglehunter
- * @subpackage junglehunter/public
+ * @subpackage junglehunter/rest
  * @author     Halil Bahar
  */
 class Junglehunter_Rest {
 
     /**
      * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string $plugin_name The ID of this plugin.
+     * @var string
      */
     private $plugin_name;
 
     /**
      * The version of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string $version The current version of this plugin.
+     * @var string
      */
     private $version;
 
@@ -35,23 +26,32 @@ class Junglehunter_Rest {
      *
      * @param string $plugin_name The name of this plugin.
      * @param string $version The version of this plugin.
-     * @since       1.0.0
      */
     public function __construct($plugin_name, $version) {
-
         $this->plugin_name = $plugin_name;
         $this->version = $version;
     }
 
+    /**
+     * Register all the routes that will face the public
+     */
     public function register_routes() {
         $namespace = 'junglehunter/v1';
-        register_rest_route($namespace, '/all', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'junglehunter_get_all')
-        ));
+        register_rest_route(
+            $namespace,
+            '/all',
+            array(
+                'methods' => 'GET',
+                'callback' => array($this, 'junglehunter_get_all')
+            )
+        );
     }
 
-    public function junglehunter_get_all(\WP_REST_Request $request) {
+    /**
+     * The function that will be called when requesting to junglehunter/v1/all
+     * @return mixed
+     */
+    public function junglehunter_get_all() {
         return rest_ensure_response(JungleHunter_Database::junglehunter_get_all());
     }
 }

@@ -1,12 +1,19 @@
 <?php
 
-
+/**
+ * The model for the Trail
+ *
+ * @package    junglehunter
+ * @subpackage junglehunter/model
+ * @author     Halil Bahar
+ */
 class Junglehunter_Trail {
 
     /**
      * @var int
      */
     public $id;
+
     /**
      * @var string
      */
